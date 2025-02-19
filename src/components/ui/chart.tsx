@@ -115,8 +115,8 @@ export const LineChart = ({ data }: { data: { name: string; value: number }[] })
         />
       </RechartsPrimitive.LineChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
 export const BarChart = ({ data }: { data: { name: string; value: number }[] }) => {
   return (
@@ -133,11 +133,14 @@ export const BarChart = ({ data }: { data: { name: string; value: number }[] }) 
         />
       </RechartsPrimitive.BarChart>
     </ChartContainer>
-  );
-};
+  )
+}
+
+// Create a type alias for the ChartTooltip component
+const ChartTooltip = RechartsPrimitive.Tooltip
 
 export {
   ChartContainer,
-  ChartTooltip: RechartsPrimitive.Tooltip,
+  ChartTooltip,
   ChartStyle,
 }
