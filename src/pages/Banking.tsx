@@ -6,6 +6,7 @@ import { LineChart } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const AccountCard = ({ bank, balance, accountNumber }: { bank: string; balance: string; accountNumber: string }) => (
   <Card className="p-6 bg-primary text-primary-foreground">
@@ -78,9 +79,29 @@ const UploadSection = () => {
 
   const handleUpload = () => {
     if (selectedFile) {
-      // Here you would typically handle the file upload
-      console.log("Uploading file:", selectedFile.name);
+      toast.success("Bank statement uploaded successfully!");
     }
+  };
+
+  const handleDownloadSample = () => {
+    // Create sample CSV content
+    const csvContent = `Date,Description,Amount,Type
+2024-03-15,Direct Deposit - Salary,5000.00,credit
+2024-03-18,Office Rent Payment,-2500.00,debit
+2024-03-20,Client Payment,1500.00,credit
+2024-03-22,Utilities Bill,-350.00,debit
+2024-03-25,Software Subscription,-99.99,debit`;
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sample_bank_statement.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -90,13 +111,13 @@ const UploadSection = () => {
         <div className="flex items-center gap-4">
           <Input
             type="file"
-            accept=".csv,.pdf,.xlsx"
+            accept=".csv,.xlsx"
             onChange={handleFileChange}
             className="flex-1"
           />
           <Button onClick={handleUpload} disabled={!selectedFile}>
-            <Upload className="w-4 h-4" />
-            <span>Upload</span>
+            <Upload className="w-4 h-4 mr-2" />
+            Upload
           </Button>
         </div>
         {selectedFile && (
@@ -104,6 +125,14 @@ const UploadSection = () => {
             Selected file: {selectedFile.name}
           </p>
         )}
+        <div className="pt-4 border-t">
+          <p className="text-sm text-gray-500 mb-2">
+            Download our sample CSV template to ensure your bank statement is in the correct format.
+          </p>
+          <Button variant="outline" onClick={handleDownloadSample}>
+            Download Sample CSV
+          </Button>
+        </div>
       </div>
     </Card>
   );
