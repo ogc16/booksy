@@ -16,7 +16,7 @@ git clone https://github.com/ogc16/booksy-mate/
 ```
 # Navigate to the project directory
 ```sh 
-cd booksy
+cd booksy-mate
 ```
 
 # Install dependencies
@@ -30,15 +30,16 @@ npm run dev
 ```
 The application will be available at http://localhost:3000 by default.
 
-🛠️ Technologies Used
+### 🛠️ Technologies Used
 Booksy is built with:
 
-Vite – Fast and optimized build tool
-TypeScript – Strongly-typed JavaScript
-React – Component-based UI framework
-shadcn-ui – Prebuilt UI components for rapid development
+1. Vite – Fast and optimized build tool
+2. TypeScript – Strongly-typed JavaScript
+3. React – Component-based UI framework
+4. shadcn-ui – Prebuilt UI components for rapid development
 Tailwind CSS – Utility-first styling
-🚀 Deployment
+
+### 🚀 Deployment
 To deploy Booksy, use platforms such as:
 
 Vercel – Zero-config deployment for frontend applications
