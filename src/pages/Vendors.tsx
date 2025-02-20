@@ -3,14 +3,21 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Plus, Building2, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const VendorCard = ({ vendor }: { vendor: {
+interface Vendor {
   name: string;
   email: string;
   phone: string;
   address: string;
   totalSpent: number;
-}}) => (
+}
+
+const VendorCard = ({ vendor }: { vendor: Vendor }) => (
   <Card className="p-6">
     <div className="flex items-start justify-between">
       <div className="flex items-start gap-4">
@@ -40,8 +47,85 @@ const VendorCard = ({ vendor }: { vendor: {
   </Card>
 );
 
+const AddVendorDialog = ({ onAddVendor }: { onAddVendor: (vendor: Vendor) => void }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newVendor = {
+      ...formData,
+      totalSpent: 0, // New vendors start with 0 spent
+    };
+    onAddVendor(newVendor);
+    toast.success("Vendor added successfully!");
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <Plus className="w-4 h-4 mr-2" />
+          Add Vendor
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add New Vendor</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Company Name</Label>
+            <Input
+              id="name"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              id="phone"
+              required
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="address">Address</Label>
+            <Input
+              id="address"
+              required
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            />
+          </div>
+          <DialogFooter>
+            <Button type="submit">Add Vendor</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 const Vendors = () => {
-  const vendors = [
+  const [vendors, setVendors] = useState<Vendor[]>([
     {
       name: "Office Supply Co.",
       email: "contact@officesupply.com",
@@ -63,7 +147,11 @@ const Vendors = () => {
       address: "789 Design Street, Chicago, IL 60601",
       totalSpent: 15300,
     },
-  ];
+  ]);
+
+  const handleAddVendor = (newVendor: Vendor) => {
+    setVendors([...vendors, newVendor]);
+  };
 
   return (
     <AppLayout>
@@ -73,10 +161,7 @@ const Vendors = () => {
             <h1 className="text-2xl font-semibold">Vendors</h1>
             <p className="text-gray-600 mt-1">Manage your vendor relationships</p>
           </div>
-          <Button>
-            <Plus className="w-4 h-4" />
-            <span>Add Vendor</span>
-          </Button>
+          <AddVendorDialog onAddVendor={handleAddVendor} />
         </div>
 
         <div className="grid gap-6">

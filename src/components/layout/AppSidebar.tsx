@@ -10,13 +10,28 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
   { title: "Dashboard", icon: ChartBar, url: "/" },
-  { title: "Invoices", icon: File, url: "/invoices" },
-  { title: "Expenses", icon: Receipt, url: "/expenses" },
   { title: "Banking", icon: CreditCard, url: "/banking" },
+  { 
+    title: "Sales", 
+    icon: File,
+    subItems: [
+      { title: "Invoices", url: "/invoices" }
+    ]
+  },
+  { 
+    title: "Purchases", 
+    icon: Receipt,
+    subItems: [
+      { title: "Expenses", url: "/expenses" }
+    ]
+  },
   { title: "Vendors", icon: Users, url: "/vendors" },
   { title: "Reports", icon: FileText, url: "/reports" },
 ];
@@ -34,15 +49,40 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a
-                      href={item.url}
-                      className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors"
-                    >
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
+                  {item.subItems ? (
+                    <>
+                      <SidebarMenuButton>
+                        <div className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors">
+                          <item.icon className="w-5 h-5" />
+                          <span>{item.title}</span>
+                        </div>
+                      </SidebarMenuButton>
+                      <SidebarMenuSub>
+                        {item.subItems.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton asChild>
+                              <a
+                                href={subItem.url}
+                                className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors"
+                              >
+                                {subItem.title}
+                              </a>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </>
+                  ) : (
+                    <SidebarMenuButton asChild>
+                      <a
+                        href={item.url}
+                        className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors"
+                      >
+                        <item.icon className="w-5 h-5" />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
