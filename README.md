@@ -46,24 +46,22 @@ Vercel – Zero-config deployment for frontend applications
 Netlify – Flexible and scalable deployment with custom domain support
 Deploy on Vercel
 Install the Vercel CLI:
-sh
-Copy
-Edit
+```sh
 npm install -g vercel
+```
 Deploy the project:
-sh
-Copy
-Edit
+```sh
 vercel
+```
 For more information, refer to Vercel's Documentation.
 
-🌐 Custom Domains
+## 🌐 Custom Domains
 To use a custom domain, configure DNS settings with your deployment provider (e.g., Vercel, Netlify). Refer to their documentation for detailed instructions.
 
-📄 License
+## 📄 License
 This project is licensed under the MIT License.
 
-🤝 Contributing
+## 🤝 Contributing
 We welcome contributions! To contribute:
 
 Fork the repository.
