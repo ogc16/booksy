@@ -12,8 +12,7 @@ Node.js & npm – Install via nvm
 ### Installation
 #### Clone the repository
 ```sh
-
-git clone <YOUR_GIT_URL>
+git clone https://github.com/ogc16/booksy-mate/
 ```
 # Navigate to the project directory
 ```sh 
@@ -21,10 +20,14 @@ cd booksy
 ```
 
 # Install dependencies
+```sh
 npm install
+```
 
 # Start the development server
+```
 npm run dev
+```
 The application will be available at http://localhost:3000 by default.
 
 🛠️ Technologies Used
