@@ -1,5 +1,5 @@
 
-import { ChartBar, CreditCard, File, Receipt, Users } from "lucide-react";
+import { ChartBar, CreditCard, File, Receipt, Users, FileText } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ const menuItems = [
   { title: "Expenses", icon: Receipt, url: "/expenses" },
   { title: "Banking", icon: CreditCard, url: "/banking" },
   { title: "Vendors", icon: Users, url: "/vendors" },
+  { title: "Reports", icon: FileText, url: "/reports" },
 ];
 
 export function AppSidebar() {
