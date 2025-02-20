@@ -1,69 +1,68 @@
-# Welcome to your Lovable project
+📚 Booksy
+Overview
+Booksy is a modern web application designed to enhance the reading experience. Built with a scalable and efficient tech stack, it offers a seamless and interactive interface.
 
-## Project info
+🔧 Getting Started
+To set up Booksy locally, follow these steps:
 
-**URL**: https://lovable.dev/projects/c6b69370-e001-4377-bd0a-1999de90a226
+Prerequisites
+Ensure you have the following installed:
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/c6b69370-e001-4377-bd0a-1999de90a226) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+Node.js & npm – Install via nvm
+Installation
+sh
+Copy
+Edit
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd booksy
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
-```
+The application will be available at http://localhost:3000 by default.
 
-**Edit a file directly in GitHub**
+🛠️ Technologies Used
+Booksy is built with:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Vite – Fast and optimized build tool
+TypeScript – Strongly-typed JavaScript
+React – Component-based UI framework
+shadcn-ui – Prebuilt UI components for rapid development
+Tailwind CSS – Utility-first styling
+🚀 Deployment
+To deploy Booksy, use platforms such as:
 
-**Use GitHub Codespaces**
+Vercel – Zero-config deployment for frontend applications
+Netlify – Flexible and scalable deployment with custom domain support
+Deploy on Vercel
+Install the Vercel CLI:
+sh
+Copy
+Edit
+npm install -g vercel
+Deploy the project:
+sh
+Copy
+Edit
+vercel
+For more information, refer to Vercel's Documentation.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+🌐 Custom Domains
+To use a custom domain, configure DNS settings with your deployment provider (e.g., Vercel, Netlify). Refer to their documentation for detailed instructions.
 
-## What technologies are used for this project?
+📄 License
+This project is licensed under the MIT License.
 
-This project is built with .
+🤝 Contributing
+We welcome contributions! To contribute:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c6b69370-e001-4377-bd0a-1999de90a226) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Fork the repository.
+Create a new branch (git checkout -b feature-branch).
+Commit your changes (git commit -m "Add new feature").
+Push the branch (git push origin feature-branch).
+Open a pull request.
