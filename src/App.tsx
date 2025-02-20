@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Invoices from "./pages/Invoices";
 import Expenses from "./pages/Expenses";
 import Banking from "./pages/Banking";
+import Vendors from "./pages/Vendors";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/banking" element={<Banking />} />
+          <Route path="/vendors" element={<Vendors />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
