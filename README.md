@@ -1,23 +1,24 @@
-📚 Booksy
-Overview
+# 📚 Booksy
+## Overview
 Booksy is a modern web application designed to enhance the reading experience. Built with a scalable and efficient tech stack, it offers a seamless and interactive interface.
 
-🔧 Getting Started
+## 🔧 Getting Started
 To set up Booksy locally, follow these steps:
 
-Prerequisites
+## Prerequisites
 Ensure you have the following installed:
 
 Node.js & npm – Install via nvm
-Installation
-sh
-Copy
-Edit
-# Clone the repository
-git clone <YOUR_GIT_URL>
+### Installation
+#### Clone the repository
+```sh
 
+git clone <YOUR_GIT_URL>
+```
 # Navigate to the project directory
+```sh 
 cd booksy
+```
 
 # Install dependencies
 npm install
