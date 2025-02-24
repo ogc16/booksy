@@ -1,16 +1,16 @@
 
-import { AppLayout } from "@/components/layout/AppLayout";
+import { LandingLayout } from "@/components/layout/LandingLayout";
 import { HeroSection } from "./landing/Hero";
 import { PricingSection } from "./landing/PricingSection";
 
 const Index = () => {
   return (
-    <AppLayout>
+    <LandingLayout>
       <div className="space-y-12 animate-fadeIn">
         <HeroSection />
         <PricingSection />
       </div>
-    </AppLayout>
+    </LandingLayout>
   );
 };
 
