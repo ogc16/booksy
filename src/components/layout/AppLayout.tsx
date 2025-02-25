@@ -36,13 +36,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="rounded-full"
+                className="rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               >
                 {theme === "dark" ? (
-                  <Sun className="h-5 w-5" />
+                  <Sun className="h-5 w-5 text-yellow-500" />
                 ) : (
-                  <Moon className="h-5 w-5" />
+                  <Moon className="h-5 w-5 text-gray-700" />
                 )}
+                <span className="sr-only">Toggle theme</span>
               </Button>
 
               <DropdownMenu>
