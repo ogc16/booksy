@@ -1,11 +1,25 @@
 
-import { ChartBar, CreditCard, File, Receipt, Users, FileText, DollarSign, Package } from "lucide-react";
+import { 
+  Home, 
+  Package, 
+  Building2, 
+  FileText, 
+  Receipt, 
+  Clock, 
+  User, 
+  BarChart, 
+  File,
+  FileBox,
+  ClipboardList,
+  FileStack,
+  FileInvoice,
+  CreditCard
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -16,37 +30,33 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", icon: ChartBar, url: "/" },
-  { title: "Banking", icon: CreditCard, url: "/banking" },
+  { title: "Home", icon: Home, url: "/dashboard" },
+  { title: "Items", icon: Package, url: "/items" },
+  { title: "Banking", icon: Building2, url: "/banking" },
   { 
     title: "Sales", 
-    icon: File,
+    icon: FileText,
     subItems: [
-      { title: "Invoices", url: "/invoices" }
+      { title: "Customers", url: "/customers" },
+      { title: "Estimates", url: "/estimates" },
+      { title: "Retainer Invoices", url: "/retainer-invoices" },
+      { title: "Sales Orders", url: "/sales-orders" },
+      { title: "Invoices", url: "/invoices" },
+      { title: "Credit Notes", url: "/credit-notes" },
     ]
   },
-  { 
-    title: "Purchases", 
-    icon: Receipt,
-    subItems: [
-      { title: "Expenses", url: "/expenses" }
-    ]
-  },
-  { title: "Vendors", icon: Users, url: "/vendors" },
-  { title: "Suppliers", icon: Package, url: "/suppliers" },
-  { title: "Reports", icon: FileText, url: "/reports" },
-  { title: "Pricing", icon: DollarSign, url: "/pricing" },
+  { title: "Purchases", icon: Receipt, url: "/purchases" },
+  { title: "Time Tracking", icon: Clock, url: "/time-tracking" },
+  { title: "Accountant", icon: User, url: "/accountant" },
+  { title: "Reports", icon: BarChart, url: "/reports" },
+  { title: "Documents", icon: FileBox, url: "/documents" },
 ];
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className="h-[60px] flex items-center px-6">
-        <span className="text-xl font-semibold">Finance Books</span>
-      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -54,7 +64,7 @@ export function AppSidebar() {
                   {item.subItems ? (
                     <>
                       <SidebarMenuButton>
-                        <div className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors">
+                        <div className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
                           <item.icon className="w-5 h-5" />
                           <span>{item.title}</span>
                         </div>
@@ -65,7 +75,7 @@ export function AppSidebar() {
                             <SidebarMenuSubButton asChild>
                               <a
                                 href={subItem.url}
-                                className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors"
+                                className="flex items-center gap-3 px-3 py-2 ml-8 text-gray-700 hover:bg-gray-100 rounded-md transition-colors text-sm"
                               >
                                 {subItem.title}
                               </a>
@@ -78,7 +88,7 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <a
                         href={item.url}
-                        className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:text-primary transition-colors"
+                        className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
                       >
                         <item.icon className="w-5 h-5" />
                         <span>{item.title}</span>
