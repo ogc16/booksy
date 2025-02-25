@@ -11,9 +11,7 @@ import {
   File,
   FileBox,
   ClipboardList,
-  FileStack,
-  FileInvoice,
-  CreditCard
+  FileStack
 } from "lucide-react";
 import {
   Sidebar,
