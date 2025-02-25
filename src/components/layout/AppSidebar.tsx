@@ -1,5 +1,5 @@
 
-import { ChartBar, CreditCard, File, Receipt, Users, FileText, DollarSign } from "lucide-react";
+import { ChartBar, CreditCard, File, Receipt, Users, FileText, DollarSign, Package } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -33,6 +33,7 @@ const menuItems = [
     ]
   },
   { title: "Vendors", icon: Users, url: "/vendors" },
+  { title: "Suppliers", icon: Package, url: "/suppliers" },
   { title: "Reports", icon: FileText, url: "/reports" },
   { title: "Pricing", icon: DollarSign, url: "/pricing" },
 ];
