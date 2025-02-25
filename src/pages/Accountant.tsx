@@ -1,6 +1,5 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'; // Import useRouter
 
 const Accountant = () => {
   const [balance, setBalance] = useState<number>(5000);
@@ -11,7 +10,7 @@ const Accountant = () => {
     { id: 1, title: "Monthly Revenue Report", link: "/reports/revenue" },
     { id: 2, title: "Expense Breakdown", link: "/reports/expenses" },
     { id: 3, title: "Profit & Loss Statement", link: "/reports/profit-loss" },
-    { id: 4, title: "Budget Overview", link: "/reports/budget" }
+    { id: 4, title: "Budget Overview", link: "/reports/budget" } // Added budget report
   ]);
 
   const [dashboardWidgets, setDashboardWidgets] = useState<
@@ -31,8 +30,6 @@ const Accountant = () => {
     { id: 3, category: "Rent", budgetedAmount: 2000, actualAmount: 1900 },
   ]);
 
-  const router = useRouter(); // Initialize useRouter
-
   useEffect(() => {
     setDashboardWidgets([
       { id: 1, title: "Current Balance", value: `$${balance.toFixed(2)}` },
@@ -41,10 +38,6 @@ const Accountant = () => {
       { id: 4, title: "Deferred Income", value: `$${deferredIncome.toFixed(2)}`},
     ]);
   }, [balance, deferredIncome]);
-
-  const handleReportClick = (link: string) => {
-    router.push(link); // Navigate to the report link
-  };
 
   return (
     <AppLayout>
@@ -68,9 +61,33 @@ const Accountant = () => {
           <ul className="space-y-2">
             {reports.map((report) => (
               <li key={report.id} className="border-b pb-2">
-                <button onClick={() => handleReportClick(report.link)} className="text-cyan-600 hover:text-cyan-800">
+                <a href={report.link} className="text-cyan-600 hover:text-cyan-800">
                   {report.title}
-                </button>
+                </a>
+                {report.title === "Budget Overview" && (
+                  <div className="mt-4">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="text-left">Category</th>
+                          <th className="text-right">Budgeted Amount</th>
+                          <th className="text-right">Actual Amount</th>
+                          <th className="text-right">Variance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {budgetItems.map((item) => (
+                          <tr key={item.id} className="border-b">
+                            <td className="py-2">{item.category}</td>
+                            <td className="py-2 text-right">${item.budgetedAmount.toFixed(2)}</td>
+                            <td className="py-2 text-right">${item.actualAmount.toFixed(2)}</td>
+                            <td className="py-2 text-right">${(item.actualAmount - item.budgetedAmount).toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
