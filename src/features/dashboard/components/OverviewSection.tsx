@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { BarChart, LineChart } from "@/components/ui/chart";
 import { ChartBar, CreditCard, DollarSign, Receipt } from "lucide-react";

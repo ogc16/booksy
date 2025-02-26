@@ -6,31 +6,31 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Landing pages
-import Index from "./pages/Index";
-import Pricing from "./pages/Pricing";
+import Index from "@/pages/Index";
+import Pricing from "@/pages/Pricing";
 
 // Dashboard and main app routes
-import Dashboard from "./pages/Dashboard";
-import Items from "./pages/Items";
-import Banking from "./pages/Banking";
-import Customers from "./pages/Customers";
-import Estimates from "./pages/Estimates";
-import RetainerInvoices from "./pages/RetainerInvoices";
-import SalesOrders from "./pages/SalesOrders";
-import Invoices from "./pages/Invoices";
-import CreditNotes from "./pages/CreditNotes";
-import Purchases from "./pages/Purchases";
-import TimeTracking from "./pages/TimeTracking";
-import Accountant from "./pages/Accountant";
-import Reports from "./pages/Reports";
-import Documents from "./pages/Documents";
+import Dashboard from "@/pages/Dashboard";
+import Items from "@/pages/Items";
+import Banking from "@/pages/Banking";
+import Customers from "@/pages/Customers";
+import Estimates from "@/pages/Estimates";
+import RetainerInvoices from "@/pages/RetainerInvoices";
+import SalesOrders from "@/pages/SalesOrders";
+import Invoices from "@/pages/Invoices";
+import CreditNotes from "@/pages/CreditNotes";
+import Purchases from "@/pages/Purchases";
+import TimeTracking from "@/pages/TimeTracking";
+import Accountant from "@/pages/Accountant";
+import Reports from "@/pages/Reports";
+import Documents from "@/pages/Documents";
 
 // Auth pages
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import Login from "@/pages/auth/Login";
+import Register from "@/pages/auth/Register";
 
 // Error pages
-import NotFound from "./pages/NotFound";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
