@@ -1,5 +1,4 @@
-
-import { AppLayout } from "@/components/layout/AppLayout";
+import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
 import { FileText, Plus, Download, X, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";

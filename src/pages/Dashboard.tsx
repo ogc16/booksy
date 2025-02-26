@@ -1,5 +1,5 @@
 
-import { AppLayout } from "@/components/layout/AppLayout";
+import { AppLayout } from "@/layouts/AppLayout";
 import { OverviewSection } from "@/features/dashboard/components/OverviewSection";
 
 const Dashboard = () => {

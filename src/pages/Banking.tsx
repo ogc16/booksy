@@ -1,5 +1,4 @@
-
-import { AppLayout } from "@/components/layout/AppLayout";
+import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
 import { CreditCard, ArrowUpRight, ArrowDownLeft, Upload, Building } from "lucide-react";
 import { LineChart } from "@/components/ui/chart";

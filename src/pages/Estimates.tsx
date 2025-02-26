@@ -1,5 +1,4 @@
-
-import { AppLayout } from "@/components/layout/AppLayout";
+import { AppLayout } from "@/layouts/AppLayout";
 
 const Estimates = () => {
   return (
