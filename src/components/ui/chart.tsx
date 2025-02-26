@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -117,7 +118,14 @@ export const LineChart = ({ data }: { data: { name: string; value: number }[] })
   )
 }
 
-export const BarChart = ({ data }: { data: { name: string; budgeted: number; actual: number; }[] }) => {
+export const BarChart = ({ 
+  data
+}: { 
+  data: { name: string; value?: number; budgeted?: number; actual?: number; }[] 
+}) => {
+  // Check if the data is in the single value format or budgeted/actual format
+  const isSingleValue = data.some(item => 'value' in item);
+
   return (
     <ChartContainer config={{}}>
       <RechartsPrimitive.BarChart data={data}>
@@ -125,17 +133,27 @@ export const BarChart = ({ data }: { data: { name: string; budgeted: number; act
         <RechartsPrimitive.XAxis dataKey="name" />
         <RechartsPrimitive.YAxis />
         <RechartsPrimitive.Tooltip />
-        <RechartsPrimitive.Legend />
-        <RechartsPrimitive.Bar
-          dataKey="budgeted"
-          fill="hsl(var(--primary))"
-          radius={[4, 4, 0, 0]}
-        />
-        <RechartsPrimitive.Bar
-          dataKey="actual"
-          fill="hsl(var(--muted))"
-          radius={[4, 4, 0, 0]}
-        />
+        {!isSingleValue && <RechartsPrimitive.Legend />}
+        {isSingleValue ? (
+          <RechartsPrimitive.Bar
+            dataKey="value"
+            fill="hsl(var(--primary))"
+            radius={[4, 4, 0, 0]}
+          />
+        ) : (
+          <>
+            <RechartsPrimitive.Bar
+              dataKey="budgeted"
+              fill="hsl(var(--primary))"
+              radius={[4, 4, 0, 0]}
+            />
+            <RechartsPrimitive.Bar
+              dataKey="actual"
+              fill="hsl(var(--muted))"
+              radius={[4, 4, 0, 0]}
+            />
+          </>
+        )}
       </RechartsPrimitive.BarChart>
     </ChartContainer>
   );
