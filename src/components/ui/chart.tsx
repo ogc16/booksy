@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -118,7 +117,7 @@ export const LineChart = ({ data }: { data: { name: string; value: number }[] })
   )
 }
 
-export const BarChart = ({ data }: { data: { name: string; value: number }[] }) => {
+export const BarChart = ({ data }: { data: { name: string; budgeted: number; actual: number; }[] }) => {
   return (
     <ChartContainer config={{}}>
       <RechartsPrimitive.BarChart data={data}>
@@ -126,15 +125,21 @@ export const BarChart = ({ data }: { data: { name: string; value: number }[] }) 
         <RechartsPrimitive.XAxis dataKey="name" />
         <RechartsPrimitive.YAxis />
         <RechartsPrimitive.Tooltip />
+        <RechartsPrimitive.Legend />
         <RechartsPrimitive.Bar
-          dataKey="value"
+          dataKey="budgeted"
           fill="hsl(var(--primary))"
+          radius={[4, 4, 0, 0]}
+        />
+        <RechartsPrimitive.Bar
+          dataKey="actual"
+          fill="hsl(var(--muted))"
           radius={[4, 4, 0, 0]}
         />
       </RechartsPrimitive.BarChart>
     </ChartContainer>
-  )
-}
+  );
+};
 
 // Create a type alias for the ChartTooltip component
 const ChartTooltip = RechartsPrimitive.Tooltip
