@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Landing pages
 import Index from "@/pages/Index";
@@ -24,7 +24,6 @@ import TimeTracking from "@/pages/TimeTracking";
 import Accountant from "@/pages/Accountant";
 import Reports from "@/pages/Reports";
 import Documents from "@/pages/Documents";
-import Expenses from "@/pages/Expenses";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";
@@ -68,8 +67,10 @@ const App = () => (
           <Route path="/time-tracking" element={<TimeTracking />} />
           <Route path="/accountant" element={<Accountant />} />
           <Route path="/reports" element={<Reports />} />
-          <Route path="/expenses" element={<Expenses />} />
           <Route path="/documents" element={<Documents />} />
+          
+          {/* Redirect expenses to purchases with expenses tab */}
+          <Route path="/expenses" element={<Navigate to="/purchases" replace />} />
 
           {/* Report routes */}
           <Route path="/reports/budget" element={<Budget />} />

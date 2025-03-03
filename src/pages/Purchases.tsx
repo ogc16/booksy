@@ -1,14 +1,17 @@
 
 import { AppLayout } from "@/layouts/AppLayout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, Package, FileText, PlusCircle, Search, Filter, DollarSign, ShoppingBag } from "lucide-react";
+import { ShoppingCart, Package, FileText, PlusCircle, Search, Filter, DollarSign, ShoppingBag, Receipt } from "lucide-react";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "react-router-dom";
 
 const Purchases = () => {
   const [activeTab, setActiveTab] = useState("orders");
+  const navigate = useNavigate();
 
   // Sample data for purchase orders
   const purchaseOrders = [
@@ -24,6 +27,13 @@ const Purchases = () => {
     { id: "REC-001", poId: "PO-001", item: "Paper reams (A4)", quantity: 50, date: "2023-10-17" },
     { id: "REC-002", poId: "PO-001", item: "Stapler packs", quantity: 20, date: "2023-10-17" },
     { id: "REC-003", poId: "PO-001", item: "Ink cartridges", quantity: 15, date: "2023-10-17" },
+  ];
+
+  // Sample data for expenses
+  const expenses = [
+    { id: 1, description: "Office Supplies", date: "2024-03-15", amount: 250, category: "Supplies" },
+    { id: 2, description: "Software Subscription", date: "2024-03-18", amount: 99, category: "Software" },
+    { id: 3, description: "Team Lunch", date: "2024-03-20", amount: 175, category: "Meals" },
   ];
 
   // Display status with appropriate styling
@@ -46,7 +56,7 @@ const Purchases = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold">Purchases</h1>
-            <p className="text-gray-600 mt-2">Manage your purchase orders and incoming stock</p>
+            <p className="text-gray-600 mt-2">Manage your purchase orders, incoming stock, and expenses</p>
           </div>
           <div className="flex gap-2">
             <Button>
@@ -109,9 +119,10 @@ const Purchases = () => {
 
         {/* Main content with tabs */}
         <Tabs defaultValue="orders" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
-          <TabsList className="grid grid-cols-1 md:grid-cols-3 lg:w-[400px]">
+          <TabsList className="grid grid-cols-1 md:grid-cols-4 lg:w-[550px]">
             <TabsTrigger value="orders">Purchase Orders</TabsTrigger>
             <TabsTrigger value="items">Received Items</TabsTrigger>
+            <TabsTrigger value="expenses">Expenses</TabsTrigger>
             <TabsTrigger value="vendors">Vendors</TabsTrigger>
           </TabsList>
           
@@ -120,7 +131,9 @@ const Purchases = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input 
-                placeholder={`Search ${activeTab === "orders" ? "purchase orders" : activeTab === "items" ? "received items" : "vendors"}...`} 
+                placeholder={`Search ${activeTab === "orders" ? "purchase orders" : 
+                  activeTab === "items" ? "received items" : 
+                  activeTab === "expenses" ? "expenses" : "vendors"}...`} 
                 className="pl-10"
               />
             </div>
@@ -208,6 +221,46 @@ const Purchases = () => {
                   </table>
                 </div>
               </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="expenses" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Expenses</CardTitle>
+                <CardDescription>Track and manage your expenses</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {expenses.map((expense) => (
+                    <Card key={expense.id} className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <Receipt className="w-8 h-8 text-primary" />
+                          <div>
+                            <h3 className="font-medium">{expense.description}</h3>
+                            <p className="text-sm text-gray-500">{expense.date}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="text-lg font-semibold text-red-600">
+                            -${expense.amount.toFixed(2)}
+                          </span>
+                          <span className="px-2 py-1 text-sm rounded-full bg-gray-100 text-gray-800">
+                            {expense.category}
+                          </span>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button onClick={() => navigate("/reports/expenses")}>
+                  <FileText className="mr-2 h-4 w-4" />
+                  View Expense Report
+                </Button>
+              </CardFooter>
             </Card>
           </TabsContent>
           
