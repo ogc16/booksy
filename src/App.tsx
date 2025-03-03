@@ -24,6 +24,10 @@ import TimeTracking from "@/pages/TimeTracking";
 import Accountant from "@/pages/Accountant";
 import Reports from "@/pages/Reports";
 import Documents from "@/pages/Documents";
+import Expenses from "@/pages/Expenses";
+
+// Report pages
+import Budget from "@/pages/reports/Budget";
 
 // Auth pages
 import Login from "@/pages/auth/Login";
@@ -61,7 +65,14 @@ const App = () => (
           <Route path="/time-tracking" element={<TimeTracking />} />
           <Route path="/accountant" element={<Accountant />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/expenses" element={<Expenses />} />
           <Route path="/documents" element={<Documents />} />
+
+          {/* Report routes */}
+          <Route path="/reports/budget" element={<Budget />} />
+          <Route path="/reports/profit-loss" element={<NotFound />} />
+          <Route path="/reports/revenue" element={<NotFound />} />
+          <Route path="/reports/expenses" element={<NotFound />} />
 
           {/* 404 route */}
           <Route path="*" element={<NotFound />} />
