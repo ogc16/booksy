@@ -2,8 +2,19 @@
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, LineChart } from "@/components/ui/chart";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Expenses = () => {
+  const navigate = useNavigate();
+  
+  const reports = [
+    { id: 1, title: "Budget Overview", link: "/reports/budget" },
+    { id: 2, title: "Profit & Loss", link: "/reports/profit-loss" },
+    { id: 3, title: "Revenue Report", link: "/reports/revenue" },
+    { id: 4, title: "Expense Analysis", link: "/reports/expenses" },
+  ];
+
   const expenseData = [
     { name: "Jan", value: 1800 },
     { name: "Feb", value: 2100 },
@@ -25,9 +36,23 @@ const Expenses = () => {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Expense Analysis</h1>
-          <p className="text-gray-600 mt-2">Break down your expenses by category</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">Expense Analysis</h1>
+            <p className="text-gray-600 mt-2">Break down your expenses by category</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {reports.map((report) => (
+              <Button 
+                key={`link-${report.id}`}
+                variant={report.link === "/reports/expenses" ? "default" : "outline"}
+                size="sm"
+                onClick={() => navigate(report.link)}
+              >
+                {report.title}
+              </Button>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

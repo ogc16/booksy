@@ -2,10 +2,12 @@
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Reports = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   
   const reports = [
     { id: 1, title: "Budget Overview", description: "Compare budgeted amounts with actual spending", link: "/reports/budget" },
@@ -20,6 +22,19 @@ const Reports = () => {
         <div>
           <h1 className="text-3xl font-bold">Reports</h1>
           <p className="text-gray-600">View and generate financial reports</p>
+        </div>
+
+        {/* Quick links navigation */}
+        <div className="flex flex-wrap gap-2">
+          {reports.map((report) => (
+            <Button 
+              key={`link-${report.id}`}
+              variant={location.pathname === report.link ? "default" : "outline"}
+              onClick={() => navigate(report.link)}
+            >
+              {report.title}
+            </Button>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
