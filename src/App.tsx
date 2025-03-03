@@ -28,6 +28,9 @@ import Expenses from "@/pages/Expenses";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";
+import ProfitLoss from "@/pages/reports/ProfitLoss";
+import Revenue from "@/pages/reports/Revenue";
+import ExpensesReport from "@/pages/reports/Expenses";
 
 // Auth pages
 import Login from "@/pages/auth/Login";
@@ -70,9 +73,9 @@ const App = () => (
 
           {/* Report routes */}
           <Route path="/reports/budget" element={<Budget />} />
-          <Route path="/reports/profit-loss" element={<NotFound />} />
-          <Route path="/reports/revenue" element={<NotFound />} />
-          <Route path="/reports/expenses" element={<NotFound />} />
+          <Route path="/reports/profit-loss" element={<ProfitLoss />} />
+          <Route path="/reports/revenue" element={<Revenue />} />
+          <Route path="/reports/expenses" element={<ExpensesReport />} />
 
           {/* 404 route */}
           <Route path="*" element={<NotFound />} />
