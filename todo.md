@@ -1,3 +1,6 @@
+1.remove items
+2.remove reports in accountant and replace with statements
+2.add payables,receivable, cash flow statement,balce sheet to statements in accountant
 
 
 1. ✅ pricing page should not access sidebar. (Completed)
