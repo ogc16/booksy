@@ -4,6 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Landing pages
 import Index from "@/pages/Index";
@@ -47,45 +49,119 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Index />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        <AuthProvider>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* App routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/items" element={<Items />} />
-          <Route path="/banking" element={<Banking />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/estimates" element={<Estimates />} />
-          <Route path="/retainer-invoices" element={<RetainerInvoices />} />
-          <Route path="/sales-orders" element={<SalesOrders />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/credit-notes" element={<CreditNotes />} />
-          <Route path="/purchases" element={<Purchases />} />
-          <Route path="/time-tracking" element={<TimeTracking />} />
-          <Route path="/accountant" element={<Accountant />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/admin" element={<Admin />} />
-          
-          {/* Redirect expenses to purchases with expenses tab */}
-          <Route path="/expenses" element={<Navigate to="/purchases" replace />} />
-          
-          {/* Redirect documents to dashboard */}
-          <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
+            {/* Protected app routes */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/items" element={
+              <ProtectedRoute>
+                <Items />
+              </ProtectedRoute>
+            } />
+            <Route path="/banking" element={
+              <ProtectedRoute>
+                <Banking />
+              </ProtectedRoute>
+            } />
+            <Route path="/customers" element={
+              <ProtectedRoute>
+                <Customers />
+              </ProtectedRoute>
+            } />
+            <Route path="/estimates" element={
+              <ProtectedRoute>
+                <Estimates />
+              </ProtectedRoute>
+            } />
+            <Route path="/retainer-invoices" element={
+              <ProtectedRoute>
+                <RetainerInvoices />
+              </ProtectedRoute>
+            } />
+            <Route path="/sales-orders" element={
+              <ProtectedRoute>
+                <SalesOrders />
+              </ProtectedRoute>
+            } />
+            <Route path="/invoices" element={
+              <ProtectedRoute>
+                <Invoices />
+              </ProtectedRoute>
+            } />
+            <Route path="/credit-notes" element={
+              <ProtectedRoute>
+                <CreditNotes />
+              </ProtectedRoute>
+            } />
+            <Route path="/purchases" element={
+              <ProtectedRoute>
+                <Purchases />
+              </ProtectedRoute>
+            } />
+            <Route path="/time-tracking" element={
+              <ProtectedRoute>
+                <TimeTracking />
+              </ProtectedRoute>
+            } />
+            <Route path="/accountant" element={
+              <ProtectedRoute requiredRole={["accountant", "admin"]}>
+                <Accountant />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                <Reports />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin" element={
+              <ProtectedRoute requiredRole="admin">
+                <Admin />
+              </ProtectedRoute>
+            } />
+            
+            {/* Redirect expenses to purchases with expenses tab */}
+            <Route path="/expenses" element={<Navigate to="/purchases" replace />} />
+            
+            {/* Redirect documents to dashboard */}
+            <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
 
-          {/* Report routes */}
-          <Route path="/reports/budget" element={<Budget />} />
-          <Route path="/reports/profit-loss" element={<ProfitLoss />} />
-          <Route path="/reports/revenue" element={<Revenue />} />
-          <Route path="/reports/expenses" element={<ExpensesReport />} />
+            {/* Report routes */}
+            <Route path="/reports/budget" element={
+              <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                <Budget />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports/profit-loss" element={
+              <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                <ProfitLoss />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports/revenue" element={
+              <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                <Revenue />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports/expenses" element={
+              <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                <ExpensesReport />
+              </ProtectedRoute>
+            } />
 
-          {/* 404 route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* 404 route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
