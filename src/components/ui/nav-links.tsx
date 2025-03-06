@@ -1,7 +1,7 @@
 
 import { 
   BarChart, Briefcase, Calculator, Clock, CreditCard, FileText, 
-  FolderOpen, Home, Package, Receipt, ShoppingCart, Users 
+  Home, Package, Receipt, ShieldCheck, ShoppingCart, Users 
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,7 @@ const links = [
   { href: "/time-tracking", label: "Time Tracking", icon: Clock },
   { href: "/accountant", label: "Accountant", icon: Calculator },
   { href: "/reports", label: "Reports", icon: BarChart },
-  { href: "/documents", label: "Documents", icon: FolderOpen },
+  { href: "/admin", label: "Admin", icon: ShieldCheck },
 ];
 
 export function NavLinks() {

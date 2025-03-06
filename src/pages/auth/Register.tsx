@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
     // Demo only - would normally validate and call an API
     toast.success("Account created successfully!");
-    navigate("/dashboard");
+    navigate("/pricing");
   };
 
   return (

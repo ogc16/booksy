@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Landing pages
 import Index from "@/pages/Index";
 import Pricing from "@/pages/Pricing";
+import Payment from "@/pages/Payment";
 
 // Dashboard and main app routes
 import Dashboard from "@/pages/Dashboard";
@@ -23,7 +24,7 @@ import Purchases from "@/pages/Purchases";
 import TimeTracking from "@/pages/TimeTracking";
 import Accountant from "@/pages/Accountant";
 import Reports from "@/pages/Reports";
-import Documents from "@/pages/Documents";
+import Admin from "@/pages/Admin";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";
@@ -50,6 +51,7 @@ const App = () => (
           {/* Public routes */}
           <Route path="/" element={<Index />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
@@ -67,10 +69,13 @@ const App = () => (
           <Route path="/time-tracking" element={<TimeTracking />} />
           <Route path="/accountant" element={<Accountant />} />
           <Route path="/reports" element={<Reports />} />
-          <Route path="/documents" element={<Documents />} />
+          <Route path="/admin" element={<Admin />} />
           
           {/* Redirect expenses to purchases with expenses tab */}
           <Route path="/expenses" element={<Navigate to="/purchases" replace />} />
+          
+          {/* Redirect documents to dashboard */}
+          <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
 
           {/* Report routes */}
           <Route path="/reports/budget" element={<Budget />} />
