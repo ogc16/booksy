@@ -15,7 +15,6 @@ const links = [
   { href: "/time-tracking", label: "Time Tracking", icon: Clock },
   { href: "/accountant", label: "Accountant", icon: Calculator },
   { href: "/reports", label: "Reports", icon: BarChart },
-  { href: "/admin", label: "Admin", icon: ShieldCheck },
 ];
 
 export function NavLinks() {
