@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,7 +15,6 @@ import Payment from "@/pages/Payment";
 import Dashboard from "@/pages/Dashboard";
 import Items from "@/pages/Items";
 import Banking from "@/pages/Banking";
-import Customers from "@/pages/Customers";
 import Sales from "@/pages/Sales";
 import Invoices from "@/pages/Invoices";
 import Purchases from "@/pages/Purchases";
@@ -71,11 +69,6 @@ const App = () => (
                 <Banking />
               </ProtectedRoute>
             } />
-            <Route path="/customers" element={
-              <ProtectedRoute>
-                <Customers />
-              </ProtectedRoute>
-            } />
             <Route path="/sales" element={
               <ProtectedRoute>
                 <Sales />
@@ -124,6 +117,9 @@ const App = () => (
             <Route path="/sales-orders" element={<Navigate to="/sales" replace />} />
             <Route path="/credit-notes" element={<Navigate to="/sales" replace />} />
             <Route path="/invoices" element={<Navigate to="/sales/invoices" replace />} />
+            
+            {/* Redirect customers to sales with customers tab */}
+            <Route path="/customers" element={<Navigate to="/sales?tab=customers" replace />} />
 
             {/* Report routes */}
             <Route path="/reports/budget" element={

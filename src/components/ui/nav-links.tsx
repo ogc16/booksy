@@ -10,7 +10,6 @@ const links = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/items", label: "Items", icon: Package },
   { href: "/banking", label: "Banking", icon: CreditCard },
-  { href: "/customers", label: "Customers", icon: Users },
   { href: "/sales", label: "Sales", icon: ShoppingCart },
   { href: "/purchases", label: "Purchases", icon: ShoppingCart },
   { href: "/time-tracking", label: "Time Tracking", icon: Clock },
