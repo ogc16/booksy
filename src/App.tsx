@@ -17,11 +17,8 @@ import Dashboard from "@/pages/Dashboard";
 import Items from "@/pages/Items";
 import Banking from "@/pages/Banking";
 import Customers from "@/pages/Customers";
-import Estimates from "@/pages/Estimates";
-import RetainerInvoices from "@/pages/RetainerInvoices";
-import SalesOrders from "@/pages/SalesOrders";
+import Sales from "@/pages/Sales";
 import Invoices from "@/pages/Invoices";
-import CreditNotes from "@/pages/CreditNotes";
 import Purchases from "@/pages/Purchases";
 import TimeTracking from "@/pages/TimeTracking";
 import Accountant from "@/pages/Accountant";
@@ -79,29 +76,14 @@ const App = () => (
                 <Customers />
               </ProtectedRoute>
             } />
-            <Route path="/estimates" element={
+            <Route path="/sales" element={
               <ProtectedRoute>
-                <Estimates />
+                <Sales />
               </ProtectedRoute>
             } />
-            <Route path="/retainer-invoices" element={
-              <ProtectedRoute>
-                <RetainerInvoices />
-              </ProtectedRoute>
-            } />
-            <Route path="/sales-orders" element={
-              <ProtectedRoute>
-                <SalesOrders />
-              </ProtectedRoute>
-            } />
-            <Route path="/invoices" element={
+            <Route path="/sales/invoices" element={
               <ProtectedRoute>
                 <Invoices />
-              </ProtectedRoute>
-            } />
-            <Route path="/credit-notes" element={
-              <ProtectedRoute>
-                <CreditNotes />
               </ProtectedRoute>
             } />
             <Route path="/purchases" element={
@@ -135,6 +117,13 @@ const App = () => (
             
             {/* Redirect documents to dashboard */}
             <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
+
+            {/* Redirect removed pages */}
+            <Route path="/estimates" element={<Navigate to="/sales" replace />} />
+            <Route path="/retainer-invoices" element={<Navigate to="/sales" replace />} />
+            <Route path="/sales-orders" element={<Navigate to="/sales" replace />} />
+            <Route path="/credit-notes" element={<Navigate to="/sales" replace />} />
+            <Route path="/invoices" element={<Navigate to="/sales/invoices" replace />} />
 
             {/* Report routes */}
             <Route path="/reports/budget" element={
