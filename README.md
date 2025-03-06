@@ -1,6 +1,6 @@
 # 📚 Booksy
 ## Overview
-Booksy is a modern web application designed to enhance the reading experience. Built with a scalable and efficient tech stack, it offers a seamless and interactive interface.
+Booksy is a modern web application designed to enhance the book keeping. Built with a scalable and efficient tech stack, it offers a seamless and interactive interface.
 
 ## 🔧 Getting Started
 To set up Booksy locally, follow these steps:
