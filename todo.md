@@ -6,5 +6,7 @@
 6. the accountant can approve deletion done by the junior accountant
 7. add network intrusion detection system to admin panel
 8. add bills as purchases props
+9. add create invoice to invoices and allow us to download them
+10. create an inventory user who can add items and create lpos
 
 
