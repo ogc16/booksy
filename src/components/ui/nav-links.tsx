@@ -1,20 +1,18 @@
 
 import { 
   BarChart, Calculator, Clock, CreditCard, 
-  Home, Package, ShieldCheck, ShoppingCart, Users 
+  Home, ShieldCheck, ShoppingCart, Users 
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/items", label: "Items", icon: Package },
   { href: "/banking", label: "Banking", icon: CreditCard },
   { href: "/sales", label: "Sales", icon: ShoppingCart },
   { href: "/purchases", label: "Purchases", icon: ShoppingCart },
   { href: "/time-tracking", label: "Time Tracking", icon: Clock },
   { href: "/accountant", label: "Accountant", icon: Calculator },
-  { href: "/reports", label: "Reports", icon: BarChart },
 ];
 
 export function NavLinks() {

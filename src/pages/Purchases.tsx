@@ -8,6 +8,11 @@ import { ShoppingCart, Package, FileText, PlusCircle, Search, Filter, DollarSign
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Purchases = () => {
   const [activeTab, setActiveTab] = useState("orders");
@@ -35,6 +40,23 @@ const Purchases = () => {
     { id: 2, description: "Software Subscription", date: "2024-03-18", amount: 99, category: "Software" },
     { id: 3, description: "Team Lunch", date: "2024-03-20", amount: 175, category: "Meals" },
   ];
+  
+  // Sample data for bills
+  const bills = [
+    { id: "BILL-001", vendor: "Office Supplies Inc.", date: "2024-03-15", dueDate: "2024-04-15", amount: 1250.00, status: "Unpaid" },
+    { id: "BILL-002", vendor: "Tech Equipment Ltd.", date: "2024-03-10", dueDate: "2024-04-10", amount: 3450.75, status: "Paid" },
+    { id: "BILL-003", vendor: "Electricity Company", date: "2024-03-01", dueDate: "2024-03-15", amount: 450.00, status: "Overdue" },
+    { id: "BILL-004", vendor: "Internet Provider", date: "2024-03-05", dueDate: "2024-04-05", amount: 89.99, status: "Unpaid" },
+  ];
+  
+  // Sample form data for new bill
+  const [newBill, setNewBill] = useState({
+    vendor: "",
+    billDate: "",
+    dueDate: "",
+    amount: "",
+    description: ""
+  });
 
   // Display status with appropriate styling
   const getStatusStyle = (status: string) => {
@@ -45,9 +67,28 @@ const Purchases = () => {
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
       case "Pending":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+      case "Paid":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "Unpaid":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+      case "Overdue":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
     }
+  };
+  
+  const handleCreateBill = () => {
+    // In a real app, would validate and save the bill
+    console.log("Creating bill:", newBill);
+    // Reset form
+    setNewBill({
+      vendor: "",
+      billDate: "",
+      dueDate: "",
+      amount: "",
+      description: ""
+    });
   };
 
   return (
@@ -56,7 +97,7 @@ const Purchases = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold">Purchases</h1>
-            <p className="text-gray-600 mt-2">Manage your purchase orders, incoming stock, and expenses</p>
+            <p className="text-gray-600 mt-2">Manage your purchase orders, bills, incoming stock, and expenses</p>
           </div>
           <div className="flex gap-2">
             <Button>
@@ -119,8 +160,9 @@ const Purchases = () => {
 
         {/* Main content with tabs */}
         <Tabs defaultValue="orders" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
-          <TabsList className="grid grid-cols-1 md:grid-cols-4 lg:w-[550px]">
+          <TabsList className="grid grid-cols-1 md:grid-cols-5 lg:w-[650px]">
             <TabsTrigger value="orders">Purchase Orders</TabsTrigger>
+            <TabsTrigger value="bills">Bills</TabsTrigger>
             <TabsTrigger value="items">Received Items</TabsTrigger>
             <TabsTrigger value="expenses">Expenses</TabsTrigger>
             <TabsTrigger value="vendors">Vendors</TabsTrigger>
@@ -132,6 +174,7 @@ const Purchases = () => {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input 
                 placeholder={`Search ${activeTab === "orders" ? "purchase orders" : 
+                  activeTab === "bills" ? "bills" :
                   activeTab === "items" ? "received items" : 
                   activeTab === "expenses" ? "expenses" : "vendors"}...`} 
                 className="pl-10"
@@ -180,6 +223,138 @@ const Purchases = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="bills" className="space-y-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle>Bills</CardTitle>
+                  <CardDescription>Manage vendor invoices and payments</CardDescription>
+                </div>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Add Bill
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[525px]">
+                    <DialogHeader>
+                      <DialogTitle>Create New Bill</DialogTitle>
+                      <DialogDescription>
+                        Enter the details for the new bill from your vendor.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="vendor" className="text-right">
+                          Vendor
+                        </Label>
+                        <Input
+                          id="vendor"
+                          value={newBill.vendor}
+                          onChange={(e) => setNewBill({...newBill, vendor: e.target.value})}
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="billDate" className="text-right">
+                          Bill Date
+                        </Label>
+                        <Input
+                          id="billDate"
+                          type="date"
+                          value={newBill.billDate}
+                          onChange={(e) => setNewBill({...newBill, billDate: e.target.value})}
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="dueDate" className="text-right">
+                          Due Date
+                        </Label>
+                        <Input
+                          id="dueDate"
+                          type="date"
+                          value={newBill.dueDate}
+                          onChange={(e) => setNewBill({...newBill, dueDate: e.target.value})}
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="amount" className="text-right">
+                          Amount
+                        </Label>
+                        <Input
+                          id="amount"
+                          type="number"
+                          placeholder="0.00"
+                          value={newBill.amount}
+                          onChange={(e) => setNewBill({...newBill, amount: e.target.value})}
+                          className="col-span-3"
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="description" className="text-right">
+                          Description
+                        </Label>
+                        <Input
+                          id="description"
+                          value={newBill.description}
+                          onChange={(e) => setNewBill({...newBill, description: e.target.value})}
+                          className="col-span-3"
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit" onClick={handleCreateBill}>Save Bill</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </CardHeader>
+              <CardContent>
+                <div className="relative overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Bill #</TableHead>
+                        <TableHead>Vendor</TableHead>
+                        <TableHead>Bill Date</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {bills.map((bill) => (
+                        <TableRow key={bill.id}>
+                          <TableCell className="font-medium">{bill.id}</TableCell>
+                          <TableCell>{bill.vendor}</TableCell>
+                          <TableCell>{bill.date}</TableCell>
+                          <TableCell>{bill.dueDate}</TableCell>
+                          <TableCell>${bill.amount.toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Badge className={getStatusStyle(bill.status)}>
+                              {bill.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex space-x-2">
+                              <Button variant="ghost" size="sm">View</Button>
+                              {bill.status === "Unpaid" && (
+                                <Button variant="outline" size="sm">Mark Paid</Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               </CardContent>
             </Card>
