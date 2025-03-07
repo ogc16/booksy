@@ -6,5 +6,6 @@
 6. add create invoice to invoices and allow us to download them
 7. we should be able to view pdf/docx formats of invoices and be able to download them
 8. create an inventory user who can add items and create lpos
+9. we should be able to delete a bank
 
 
