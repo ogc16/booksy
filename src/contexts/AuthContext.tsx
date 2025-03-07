@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-export type UserRole = "admin" | "manager" | "accountant" | "user";
+export type UserRole = "admin" | "manager" | "accountant" | "user" | "inventory" | "junior_accountant";
 
 interface User {
   id: string;
@@ -53,6 +53,20 @@ const MOCK_USERS = [
     password: "user123",
     name: "Regular User",
     role: "user" as UserRole,
+  },
+  {
+    id: "5",
+    email: "inventory@example.com",
+    password: "inventory123",
+    name: "Inventory Manager",
+    role: "inventory" as UserRole,
+  },
+  {
+    id: "6",
+    email: "junior@example.com",
+    password: "junior123",
+    name: "Junior Accountant",
+    role: "junior_accountant" as UserRole,
   },
 ];
 
@@ -133,11 +147,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const hasPermission = (requiredRole: UserRole | UserRole[]) => {
     if (!user) return false;
 
-    // Role hierarchy: admin > manager > accountant > user
+    // Role hierarchy: admin > manager > accountant > junior_accountant > inventory > user
     const roleHierarchy: Record<UserRole, number> = {
-      admin: 4,
-      manager: 3,
-      accountant: 2,
+      admin: 6,
+      manager: 5,
+      accountant: 4,
+      junior_accountant: 3,
+      inventory: 2,
       user: 1,
     };
 
@@ -145,11 +161,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (Array.isArray(requiredRole)) {
       // If any of the roles in the array is allowed
-      return requiredRole.some((role) => roleHierarchy[role] <= userRoleLevel);
+      return requiredRole.some((role) => roleHierarchy[role] <= userRoleLevel || role === user.role);
     }
 
-    // Check if user's role level is sufficient
-    return roleHierarchy[requiredRole] <= userRoleLevel;
+    // Check if user's role level is sufficient or exact match
+    return roleHierarchy[requiredRole] <= userRoleLevel || requiredRole === user.role;
   };
 
   return (
