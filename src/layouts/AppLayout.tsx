@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme/theme-provider";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { setTheme, theme } = useTheme();
@@ -24,7 +24,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="flex-1 overflow-x-hidden">
           <div className="h-16 border-b bg-white dark:bg-gray-800 dark:border-gray-700 flex items-center px-6 justify-between">
             <div className="max-w-md w-full relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
               <Input 
                 className="pl-10"
                 type="search"
