@@ -1,11 +1,21 @@
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
-import { CreditCard, ArrowUpRight, ArrowDownLeft, Upload, Building } from "lucide-react";
+import { CreditCard, ArrowUpRight, ArrowDownLeft, Upload, Building, Plus } from "lucide-react";
 import { LineChart } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 const AccountCard = ({ bank, balance, accountNumber }: { bank: string; balance: string; accountNumber: string }) => (
   <Card className="p-6 bg-primary text-primary-foreground">
@@ -137,18 +147,125 @@ const UploadSection = () => {
   );
 };
 
+const CreateBankDialog = ({ onBankCreated }: { onBankCreated: (bank: { bank: string; balance: string; accountNumber: string }) => void }) => {
+  const [bankName, setBankName] = useState("");
+  const [initialBalance, setInitialBalance] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate input
+    if (!bankName || !initialBalance || !accountNumber) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Format the balance with dollar sign and commas
+    const formattedBalance = `$${parseFloat(initialBalance).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
+
+    // Format account number to only show last 4 digits
+    const lastFourDigits = accountNumber.slice(-4);
+    
+    // Create the new bank object
+    const newBank = {
+      bank: bankName,
+      balance: formattedBalance,
+      accountNumber: lastFourDigits,
+    };
+    
+    // Pass the new bank to the parent component
+    onBankCreated(newBank);
+    
+    // Reset form and close dialog
+    setBankName("");
+    setInitialBalance("");
+    setAccountNumber("");
+    setOpen(false);
+    
+    // Show success message
+    toast.success(`${bankName} account added successfully!`);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="flex items-center gap-1">
+          <Plus className="w-4 h-4" />
+          Add Bank Account
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <form onSubmit={handleSubmit}>
+          <DialogHeader>
+            <DialogTitle>Add New Bank Account</DialogTitle>
+            <DialogDescription>
+              Enter your bank account details below to add it to your dashboard.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="bank-name">Bank Name</Label>
+              <Input
+                id="bank-name"
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
+                placeholder="e.g. Chase, Bank of America"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="initial-balance">Initial Balance</Label>
+              <Input
+                id="initial-balance"
+                type="number"
+                step="0.01"
+                value={initialBalance}
+                onChange={(e) => setInitialBalance(e.target.value)}
+                placeholder="0.00"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="account-number">Account Number</Label>
+              <Input
+                id="account-number"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                placeholder="Last 4 digits will be displayed"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Add Bank Account</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 const Banking = () => {
-  const accounts = [
+  const [accounts, setAccounts] = useState([
     { bank: "Chase", balance: "$32,145.00", accountNumber: "4589" },
     { bank: "Bank of America", balance: "$27,244.00", accountNumber: "7832" },
-  ];
+  ]);
+
+  const handleBankCreated = (newBank: { bank: string; balance: string; accountNumber: string }) => {
+    setAccounts([...accounts, newBank]);
+  };
 
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-semibold">Banking</h1>
-          <p className="text-gray-600 mt-1">Manage your accounts and transactions</p>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-semibold">Banking</h1>
+            <p className="text-gray-600 mt-1">Manage your accounts and transactions</p>
+          </div>
+          <CreateBankDialog onBankCreated={handleBankCreated} />
         </div>
         
         <UploadSection />
