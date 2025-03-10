@@ -581,7 +581,8 @@ const InvoicesList = () => {
                     ? "bg-green-100 text-green-800"
                     : invoice.status === "Pending"
                     ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
+                    : invoice.status === "Overdue"
+                    ? "bg-red-100 text-red-800"
                 }`}>
                   {invoice.status}
                 </span>
@@ -637,12 +638,12 @@ const Invoices = () => {
             <p className="text-gray-600 mt-1">Manage your invoices and payments</p>
           </div>
           <div className="flex gap-2">
-            {hasPermission(["manager", "admin"]) && (
+            
               <Button onClick={() => setCreateInvoiceOpen(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 <span>New Invoice</span>
               </Button>
-            )}
+            
             <Button 
               variant="outline" 
               onClick={() => setUploadDialogOpen(true)}
