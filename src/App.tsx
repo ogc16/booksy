@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,6 +24,7 @@ import Accountant from "@/pages/Accountant";
 import Reports from "@/pages/Reports";
 import Admin from "@/pages/Admin";
 import Inventory from "@/pages/Inventory";
+import LPO from "@/pages/LPO";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";

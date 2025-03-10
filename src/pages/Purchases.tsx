@@ -1,4 +1,3 @@
-
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,42 +13,89 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+interface Bill {
+  id: string;
+  vendor: string;
+  date: string;
+  dueDate: string;
+  amount: number;
+  status: string;
+  description?: string;
+  attachment?: File;
+}
+
+interface PurchaseOrder {
+  id: string;
+  vendor: string;
+  date: string;
+  total: number;
+  status: string;
+  bills?: Bill[];
+}
+
+interface ReceivedItem {
+  id: string;
+  poId: string;
+  item: string;
+  quantity: number;
+  date: string;
+}
+
+interface Expense {
+  id: number;
+  description: string;
+  date: string;
+  amount: number;
+  category: string;
+}
+
 const Purchases = () => {
   const [activeTab, setActiveTab] = useState("orders");
   const navigate = useNavigate();
 
-  // Sample data for purchase orders
-  const purchaseOrders = [
-    { id: "PO-001", vendor: "Office Supplies Inc.", date: "2023-10-15", total: 1250.00, status: "Received" },
+  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>([
+    { 
+      id: "PO-001", 
+      vendor: "Office Supplies Inc.", 
+      date: "2023-10-15", 
+      total: 1250.00, 
+      status: "Received",
+      bills: [
+        {
+          id: "BILL-001",
+          vendor: "Office Supplies Inc.",
+          date: "2024-03-15",
+          dueDate: "2024-04-15",
+          amount: 1250.00,
+          status: "Unpaid"
+        }
+      ]
+    },
     { id: "PO-002", vendor: "Tech Equipment Ltd.", date: "2023-10-18", total: 3450.75, status: "Pending" },
     { id: "PO-003", vendor: "Furniture Warehouse", date: "2023-10-20", total: 5200.00, status: "Ordered" },
     { id: "PO-004", vendor: "Office Depot", date: "2023-10-22", total: 890.50, status: "Pending" },
     { id: "PO-005", vendor: "IT Solutions", date: "2023-10-25", total: 1750.25, status: "Ordered" },
-  ];
+  ]);
 
-  // Sample data for received items
-  const receivedItems = [
+  const [receivedItems, setReceivedItems] = useState<ReceivedItem[]>([
     { id: "REC-001", poId: "PO-001", item: "Paper reams (A4)", quantity: 50, date: "2023-10-17" },
     { id: "REC-002", poId: "PO-001", item: "Stapler packs", quantity: 20, date: "2023-10-17" },
     { id: "REC-003", poId: "PO-001", item: "Ink cartridges", quantity: 15, date: "2023-10-17" },
-  ];
+  ]);
 
-  // Sample data for expenses
-  const expenses = [
+  const [expenses, setExpenses] = useState<Expense[]>([
     { id: 1, description: "Office Supplies", date: "2024-03-15", amount: 250, category: "Supplies" },
     { id: 2, description: "Software Subscription", date: "2024-03-18", amount: 99, category: "Software" },
     { id: 3, description: "Team Lunch", date: "2024-03-20", amount: 175, category: "Meals" },
-  ];
+  ]);
   
-  // Sample data for bills
-  const bills = [
+  const [bills, setBills] = useState<Bill[]>([
     { id: "BILL-001", vendor: "Office Supplies Inc.", date: "2024-03-15", dueDate: "2024-04-15", amount: 1250.00, status: "Unpaid" },
     { id: "BILL-002", vendor: "Tech Equipment Ltd.", date: "2024-03-10", dueDate: "2024-04-10", amount: 3450.75, status: "Paid" },
     { id: "BILL-003", vendor: "Electricity Company", date: "2024-03-01", dueDate: "2024-03-15", amount: 450.00, status: "Overdue" },
     { id: "BILL-004", vendor: "Internet Provider", date: "2024-03-05", dueDate: "2024-04-05", amount: 89.99, status: "Unpaid" },
-  ];
+  ]);
   
-  // Sample form data for new bill
   const [newBill, setNewBill] = useState({
     vendor: "",
     billDate: "",
@@ -58,7 +104,6 @@ const Purchases = () => {
     description: ""
   });
 
-  // Display status with appropriate styling
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "Received":
@@ -79,9 +124,7 @@ const Purchases = () => {
   };
   
   const handleCreateBill = () => {
-    // In a real app, would validate and save the bill
     console.log("Creating bill:", newBill);
-    // Reset form
     setNewBill({
       vendor: "",
       billDate: "",
@@ -107,7 +150,6 @@ const Purchases = () => {
           </div>
         </div>
 
-        {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-6 flex items-center gap-4">
@@ -158,7 +200,6 @@ const Purchases = () => {
           </Card>
         </div>
 
-        {/* Main content with tabs */}
         <Tabs defaultValue="orders" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
           <TabsList className="grid grid-cols-1 md:grid-cols-5 lg:w-[650px]">
             <TabsTrigger value="orders">Purchase Orders</TabsTrigger>
@@ -168,7 +209,6 @@ const Purchases = () => {
             <TabsTrigger value="vendors">Vendors</TabsTrigger>
           </TabsList>
           
-          {/* Search and filter bar */}
           <div className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

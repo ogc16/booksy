@@ -1,6 +1,7 @@
+
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
-import { CreditCard, ArrowUpRight, ArrowDownLeft, Upload, Building, Plus } from "lucide-react";
+import { CreditCard, ArrowUpRight, ArrowDownLeft, Upload, Building, Plus, Trash2 } from "lucide-react";
 import { LineChart } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,8 +14,20 @@ import {
   DialogFooter, 
   DialogHeader, 
   DialogTitle, 
-  DialogTrigger 
+  DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 
 const AccountCard = ({ bank, balance, accountNumber }: { bank: string; balance: string; accountNumber: string }) => (
@@ -257,6 +270,12 @@ const Banking = () => {
     setAccounts([...accounts, newBank]);
   };
 
+  const handleDeleteBank = (bankIndex: number) => {
+    const newAccounts = accounts.filter((_, index) => index !== bankIndex);
+    setAccounts(newAccounts);
+    toast.success("Bank account deleted successfully");
+  };
+
   return (
     <AppLayout>
       <div className="space-y-6">
@@ -272,12 +291,41 @@ const Banking = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {accounts.map((account, index) => (
-            <AccountCard
-              key={index}
-              bank={account.bank}
-              balance={account.balance}
-              accountNumber={account.accountNumber}
-            />
+            <div key={index} className="relative">
+              <AccountCard
+                bank={account.bank}
+                balance={account.balance}
+                accountNumber={account.accountNumber}
+              />
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className="absolute top-2 right-2 text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Bank Account</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete this bank account? This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction 
+                      variant="destructive"
+                      onClick={() => handleDeleteBank(index)}
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           ))}
           <Card className="p-6 lg:col-span-1">
             <h3 className="text-lg font-semibold mb-4">Balance History</h3>
