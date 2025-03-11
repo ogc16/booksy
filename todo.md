@@ -8,4 +8,3 @@
 7. Add reporting and analytics for inventory
 8. Implement barcode scanning functionality
 9. Add supplier management
-

@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -113,6 +114,15 @@ const App = () => (
                   <Inventory />
                 </ProtectedRoute>
               } />
+              
+              {/* Redirect tracking to inventory section */}
+              <Route path="/tracking" element={<Navigate to="/inventory?tab=tracking" replace />} />
+              
+              {/* Redirect orders to inventory section */}
+              <Route path="/orders" element={<Navigate to="/inventory?tab=orders" replace />} />
+              
+              {/* Redirect analytics to inventory section */}
+              <Route path="/analytics" element={<Navigate to="/inventory?tab=analytics" replace />} />
               
               {/* Redirect expenses to purchases with expenses tab */}
               <Route path="/expenses" element={<Navigate to="/purchases" replace />} />

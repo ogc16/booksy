@@ -11,6 +11,9 @@ import PurchaseOrdersTable from "@/components/inventory/PurchaseOrdersTable";
 import StockLevelsTable from "@/components/inventory/StockLevelsTable";
 import { InventoryItem, PurchaseOrder, StockLevel } from '@/types/inventory';
 import AddInventoryItemDialog from '@/components/inventory/AddInventoryItemDialog';
+import Orders from "@/pages/inventory/Orders";
+import Tracking from "@/pages/inventory/Tracking";
+import Analytics from "@/pages/inventory/Analytics";
 
 // Sample inventory data
 const sampleInventoryItems: InventoryItem[] = [
@@ -209,10 +212,13 @@ const Inventory = () => {
         </div>
 
         <Tabs defaultValue="items">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="items">Items</TabsTrigger>
             <TabsTrigger value="lpo">Purchase Orders</TabsTrigger>
             <TabsTrigger value="stock">Stock Levels</TabsTrigger>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
+            <TabsTrigger value="tracking">Tracking</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           
           <TabsContent value="items" className="space-y-4 mt-4">
@@ -225,6 +231,18 @@ const Inventory = () => {
           
           <TabsContent value="stock" className="space-y-4 mt-4">
             <StockLevelsTable stockLevels={sampleStockLevels} />
+          </TabsContent>
+          
+          <TabsContent value="orders" className="space-y-4 mt-4">
+            <Orders />
+          </TabsContent>
+          
+          <TabsContent value="tracking" className="space-y-4 mt-4">
+            <Tracking />
+          </TabsContent>
+          
+          <TabsContent value="analytics" className="space-y-4 mt-4">
+            <Analytics />
           </TabsContent>
         </Tabs>
       </div>

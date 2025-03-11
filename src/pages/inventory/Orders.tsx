@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { AppLayout } from "@/layouts/AppLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, ShoppingCart } from "lucide-react";
@@ -49,89 +48,87 @@ const Orders = () => {
   };
 
   return (
-    <AppLayout>
-      <div className="container mx-auto py-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold">Orders</h1>
-            <p className="text-muted-foreground">Manage customer orders and fulfillment</p>
-          </div>
-          
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            New Order
-          </Button>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold">Orders</h2>
+          <p className="text-muted-foreground">Manage customer orders and fulfillment</p>
         </div>
+        
+        <Button>
+          <PlusCircle className="mr-2 h-4 w-4" />
+          New Order
+        </Button>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-medium">Total Orders</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center">
-                <ShoppingCart className="mr-2 h-4 w-4 text-muted-foreground" />
-                <span className="text-2xl font-bold">{sampleOrders.length}</span>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-medium">Orders Value</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                KES {sampleOrders.reduce((total, order) => total + order.total, 0).toFixed(2)}
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-medium">Pending Orders</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {sampleOrders.filter(order => order.status === 'pending').length}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Order List</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-medium">Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order #</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sampleOrders.map((order) => (
-                    <TableRow key={order.id} className="cursor-pointer hover:bg-muted/50">
-                      <TableCell className="font-medium">{order.id}</TableCell>
-                      <TableCell>{order.customer}</TableCell>
-                      <TableCell>{order.date}</TableCell>
-                      <TableCell>{getStatusBadge(order.status)}</TableCell>
-                      <TableCell className="text-right">KES {order.total.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="flex items-center">
+              <ShoppingCart className="mr-2 h-4 w-4 text-muted-foreground" />
+              <span className="text-2xl font-bold">{sampleOrders.length}</span>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-medium">Orders Value</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              KES {sampleOrders.reduce((total, order) => total + order.total, 0).toFixed(2)}
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-medium">Pending Orders</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {sampleOrders.filter(order => order.status === 'pending').length}
             </div>
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Order List</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order #</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sampleOrders.map((order) => (
+                  <TableRow key={order.id} className="cursor-pointer hover:bg-muted/50">
+                    <TableCell className="font-medium">{order.id}</TableCell>
+                    <TableCell>{order.customer}</TableCell>
+                    <TableCell>{order.date}</TableCell>
+                    <TableCell>{getStatusBadge(order.status)}</TableCell>
+                    <TableCell className="text-right">KES {order.total.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
