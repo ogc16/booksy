@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Package } from "lucide-react";
@@ -9,7 +9,6 @@ import { AppLayout } from "@/layouts/AppLayout";
 import InventoryTable from "@/components/inventory/InventoryTable";
 import PurchaseOrdersTable from "@/components/inventory/PurchaseOrdersTable";
 import StockLevelsTable from "@/components/inventory/StockLevelsTable";
-import { InventorySidebar } from "@/components/inventory/InventorySidebar";
 import { InventoryItem, PurchaseOrder, StockLevel } from '@/types/inventory';
 import AddInventoryItemDialog from '@/components/inventory/AddInventoryItemDialog';
 
@@ -146,107 +145,89 @@ const sampleStockLevels: StockLevel[] = [
 
 const Inventory = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>(sampleInventoryItems);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  
-  const searchParams = new URLSearchParams(location.search);
-  const currentTab = searchParams.get('tab') || 'items';
 
   const handleAddItem = (newItem: InventoryItem) => {
     setInventoryItems([...inventoryItems, newItem]);
   };
 
-  const handleTabChange = (tab: string) => {
-    navigate(`/inventory?tab=${tab}`);
-  };
-
-  const renderTabContent = () => {
-    switch (currentTab) {
-      case 'lpo':
-        return <PurchaseOrdersTable orders={samplePurchaseOrders} />;
-      case 'stock':
-        return <StockLevelsTable stockLevels={sampleStockLevels} />;
-      case 'categories':
-        return (
-          <div className="p-4 text-center">
-            <p className="text-muted-foreground">Categories management coming soon</p>
-          </div>
-        );
-      case 'items':
-      default:
-        return <InventoryTable items={inventoryItems} />;
-    }
-  };
-
   return (
     <AppLayout>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full">
-          <InventorySidebar />
-          <SidebarInset>
-            <div className="container mx-auto py-6 space-y-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h1 className="text-3xl font-bold">Inventory Management</h1>
-                  <p className="text-muted-foreground">Manage your products, purchase orders, and stock levels</p>
-                </div>
-                
-                {currentTab === 'items' && (
-                  <Button onClick={() => setCreateDialogOpen(true)}>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Inventory Item
-                  </Button>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-medium">Total Products</CardTitle>
-                    <CardDescription>Unique inventory items</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center">
-                      <Package className="mr-2 h-4 w-4 text-muted-foreground" />
-                      <span className="text-2xl font-bold">{inventoryItems.length}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-medium">Total Stock Value</CardTitle>
-                    <CardDescription>Current inventory value</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
-                      KES {inventoryItems.reduce((total, item) => {
-                        return total + (item.price * item.quantity);
-                      }, 0).toFixed(2)}
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-medium">Low Stock Items</CardTitle>
-                    <CardDescription>Items below reorder point</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">
-                      {sampleStockLevels.filter(item => item.status === 'low-stock' || item.status === 'out-of-stock').length}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {renderTabContent()}
-            </div>
-          </SidebarInset>
+      <div className="container mx-auto py-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">Inventory Management</h1>
+            <p className="text-muted-foreground">Manage your products, purchase orders, and stock levels</p>
+          </div>
+          
+          <Button onClick={() => setCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Inventory Item
+          </Button>
         </div>
-      </SidebarProvider>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-medium">Total Products</CardTitle>
+              <CardDescription>Unique inventory items</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center">
+                <Package className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span className="text-2xl font-bold">{inventoryItems.length}</span>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-medium">Total Stock Value</CardTitle>
+              <CardDescription>Current inventory value</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                KES {inventoryItems.reduce((total, item) => {
+                  return total + (item.price * item.quantity);
+                }, 0).toFixed(2)}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-medium">Low Stock Items</CardTitle>
+              <CardDescription>Items below reorder point</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {sampleStockLevels.filter(item => item.status === 'low-stock' || item.status === 'out-of-stock').length}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="items">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="items">Items</TabsTrigger>
+            <TabsTrigger value="lpo">Purchase Orders</TabsTrigger>
+            <TabsTrigger value="stock">Stock Levels</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="items" className="space-y-4 mt-4">
+            <InventoryTable items={inventoryItems} />
+          </TabsContent>
+          
+          <TabsContent value="lpo" className="space-y-4 mt-4">
+            <PurchaseOrdersTable orders={samplePurchaseOrders} />
+          </TabsContent>
+          
+          <TabsContent value="stock" className="space-y-4 mt-4">
+            <StockLevelsTable stockLevels={sampleStockLevels} />
+          </TabsContent>
+        </Tabs>
+      </div>
       
       <AddInventoryItemDialog 
         open={createDialogOpen} 

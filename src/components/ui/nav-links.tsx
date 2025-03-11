@@ -18,13 +18,12 @@ const links = [
 
 export function NavLinks() {
   const location = useLocation();
-  const pathWithoutQuery = location.pathname.split('?')[0];
 
   return (
     <nav className="space-y-1 px-2">
       {links.map((link) => {
         const Icon = link.icon;
-        const isActive = pathWithoutQuery === link.href;
+        const isActive = location.pathname === link.href;
 
         return (
           <Link
