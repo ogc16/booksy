@@ -19,7 +19,7 @@ const PurchaseOrdersTable: React.FC<PurchaseOrdersTableProps> = ({ orders }) => 
       case 'sent':
         return <Badge variant="secondary">Sent</Badge>;
       case 'received':
-        return <Badge variant="success">Received</Badge>;
+        return <Badge className="bg-green-500 hover:bg-green-600">Received</Badge>;
       case 'cancelled':
         return <Badge variant="destructive">Cancelled</Badge>;
       default:
