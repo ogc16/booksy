@@ -1,4 +1,3 @@
-
 import { AppLayout } from "@/layouts/AppLayout";
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -100,6 +99,13 @@ const Accountant = () => {
     navigate("/accountant/reports");
   };
 
+  const reports = [
+    { id: 1, title: "Budget Overview", link: "/reports/budget" },
+    { id: 2, title: "Profit & Loss", link: "/reports/profit-loss" },
+    { id: 3, title: "Revenue Report", link: "/reports/revenue" },
+    { id: 4, title: "Expense Analysis", link: "/reports/expenses" },
+  ];
+
   return (
     <AppLayout>
       <div className="space-y-6 p-4">
@@ -134,6 +140,7 @@ const Accountant = () => {
         <Tabs defaultValue="statements" className="space-y-4">
           <TabsList>
             <TabsTrigger value="statements">Statements</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
             {!isJuniorAccountant && (
               <TabsTrigger value="approvals">Deletion Approvals</TabsTrigger>
             )}
@@ -191,6 +198,30 @@ const Accountant = () => {
                     ))}
                   </TableBody>
                 </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <Card>
+              <CardHeader>
+                <CardTitle>Financial Reports</CardTitle>
+                <CardDescription>Access and analyze your financial reports</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {reports.map((report) => (
+                    <Button
+                      key={report.id}
+                      variant="outline"
+                      className="w-full text-left flex items-center gap-2"
+                      onClick={() => handleViewReports()}
+                    >
+                      <FileBarChart className="h-4 w-4" />
+                      {report.title}
+                    </Button>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
