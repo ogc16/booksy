@@ -6,17 +6,12 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-  id: string;
+  id: number;
   number: string;
-  client: string;
   date: string;
-  dueDate: string;
-  items: InvoiceItem[];
-  subtotal: number;
-  vatRate: number;
-  total: number;
+  amount: number;
   status: string;
-  paymentStatus: string;
-  amount?: number; // For backward compatibility
+  client: string;
+  items: InvoiceItem[];
   attachments?: File[];
 }

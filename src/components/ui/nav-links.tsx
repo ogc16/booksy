@@ -1,142 +1,47 @@
-import {
-  BarChart2,
-  Building2,
-  ClipboardEdit,
-  LayoutDashboard,
-  PackageCheck,
-  Receipt,
-  ShoppingCart,
-  Truck,
+
+import { 
+  BarChart, Calculator, Clock, CreditCard, 
+  Home, Package, ShieldCheck, ShoppingCart, 
+  Users, UserRound
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
-export interface NavLink {
-  title: string;
-  href: string;
-  icon:
-    | "LayoutDashboard"
-    | "Building2"
-    | "Receipt"
-    | "ClipboardEdit"
-    | "PackageCheck"
-    | "Truck"
-    | "ShoppingCart"
-    | "BarChart2";
-  roles: string[];
-}
-
-export function getNavLinks(role: string | null | undefined): NavLink[] {
-  const links: NavLink[] = [
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: "LayoutDashboard",
-      roles: ["user", "admin", "accountant", "manager"],
-    },
-    {
-      title: "Banking",
-      href: "/banking",
-      icon: "Building2",
-      roles: ["user", "admin", "accountant", "manager"],
-    },
-    {
-      title: "Invoices",
-      href: "/invoices",
-      icon: "Receipt",
-      roles: ["user", "admin", "accountant", "manager"],
-    },
-    {
-      title: "Estimates",
-      href: "/estimates",
-      icon: "ClipboardEdit",
-      roles: ["user", "admin", "manager"],
-    },
-    {
-      title: "Inventory",
-      href: "/inventory",
-      icon: "PackageCheck",
-      roles: ["user", "admin", "manager"],
-    },
-    {
-      title: "Suppliers",
-      href: "/suppliers",
-      icon: "Truck",
-      roles: ["user", "admin", "manager"],
-    },
-    {
-      title: "Purchases",
-      href: "/purchases",
-      icon: "ShoppingCart",
-      roles: ["user", "admin", "manager"],
-    },
-    {
-      title: "Reports",
-      href: "/reports",
-      icon: "BarChart2",
-      roles: ["accountant", "admin", "manager"],
-    }
-  ];
-
-  // Filter links based on user role
-  return links.filter((link) => {
-    // Show all links if no role is specified (or include role validation logic)
-    if (!role || link.roles.includes(role)) {
-      return true;
-    }
-    return false;
-  });
-}
+const links = [
+  { href: "/dashboard", label: "Dashboard", icon: Home },
+  { href: "/banking", label: "Banking", icon: CreditCard },
+  { href: "/sales", label: "Sales", icon: ShoppingCart },
+  { href: "/purchases", label: "Purchases", icon: Package },
+  { href: "/inventory", label: "Inventory", icon: Package },
+  { href: "/time-tracking", label: "Time Tracking", icon: Clock },
+  { href: "/accountant", label: "Accountant", icon: Calculator },
+];
 
 export function NavLinks() {
-  const navigate = useNavigate();
-  
-  // Get links with null role - we'll filter in the AppSidebar component
-  const links = getNavLinks(null);
-  
-  const getIconComponent = (iconName: string) => {
-    switch (iconName) {
-      case "LayoutDashboard":
-        return <LayoutDashboard className="mr-2 h-4 w-4" />;
-      case "Building2":
-        return <Building2 className="mr-2 h-4 w-4" />;
-      case "Receipt":
-        return <Receipt className="mr-2 h-4 w-4" />;
-      case "ClipboardEdit":
-        return <ClipboardEdit className="mr-2 h-4 w-4" />;
-      case "PackageCheck":
-        return <PackageCheck className="mr-2 h-4 w-4" />;
-      case "Truck":
-        return <Truck className="mr-2 h-4 w-4" />;
-      case "ShoppingCart":
-        return <ShoppingCart className="mr-2 h-4 w-4" />;
-      case "BarChart2":
-        return <BarChart2 className="mr-2 h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
+  const location = useLocation();
 
   return (
-    <SidebarMenu>
-      {links.map((link) => (
-        <SidebarMenuItem key={link.href}>
-          <SidebarMenuButton
-            asChild
-            onClick={() => navigate(link.href)}
+    <nav className="space-y-1 px-2">
+      {links.map((link) => {
+        const Icon = link.icon;
+        const isActive = location.pathname === link.href;
+
+        return (
+          <Link
+            key={link.href}
+            to={link.href}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              isActive 
+                ? "bg-primary text-primary-foreground" 
+                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            )}
           >
-            <Button variant="ghost" className="w-full justify-start">
-              {getIconComponent(link.icon)}
-              <span>{link.title}</span>
-            </Button>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+            <Icon className="h-4 w-4" />
+            {link.label}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }

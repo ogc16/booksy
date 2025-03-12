@@ -1,99 +1,187 @@
 
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from "./contexts/AuthContext";
-import Index from "./pages/Index";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import Dashboard from "./pages/Dashboard";
-import Banking from "./pages/Banking";
-import Invoices from "./pages/Invoices";
-import Estimates from "./pages/Estimates";
-import Inventory from "./pages/Inventory";
-import Suppliers from "./pages/Suppliers";
-import Purchases from "./pages/Purchases";
-import Reports from "./pages/Reports";
-import Expenses from "./pages/Expenses";
-import Budget from "./pages/reports/Budget";
-import ProfitLoss from "./pages/reports/ProfitLoss";
-import Revenue from "./pages/reports/Revenue";
-import Accountant from "./pages/Accountant";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
-import AccountantReports from "./pages/accountant/Reports";
-import Pricing from "./pages/Pricing";
-import Payment from "./pages/Payment";
-import Settings from "./pages/Settings";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
-function App() {
-  const { user: currentUser } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [loading, setLoading] = useState(true);
-  
-  // Define publicRoutes here so it's accessible in the component
-  const publicRoutes = ['/', '/login', '/register', '/pricing', '/payment'];
-  const authRoutes = ['/dashboard', '/banking', '/invoices', '/estimates', '/inventory', '/suppliers', '/purchases', '/reports', '/expenses', '/budget', '/profit-loss', '/revenue', '/accountant', '/admin', '/settings'];
+// Landing pages
+import Index from "@/pages/Index";
+import Pricing from "@/pages/Pricing";
+import Payment from "@/pages/Payment";
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  }, []);
+// Dashboard and main app routes
+import Dashboard from "@/pages/Dashboard";
+import Items from "@/pages/Items";
+import Banking from "@/pages/Banking";
+import Sales from "@/pages/Sales";
+import Invoices from "@/pages/Invoices";
+import Purchases from "@/pages/Purchases";
+import TimeTracking from "@/pages/TimeTracking";
+import Accountant from "@/pages/Accountant";
+import Reports from "@/pages/Reports";
+import Admin from "@/pages/Admin";
+import Inventory from "@/pages/Inventory";
+import LPO from "@/pages/LPO";
+import AccountantReports from "@/pages/accountant/Reports";
+import Suppliers from "@/pages/Suppliers";
 
-  useEffect(() => {
-    if (!currentUser && authRoutes.some(route => location.pathname.startsWith(route))) {
-      navigate('/login');
-    } else if (currentUser && location.pathname === '/login') {
-      navigate('/dashboard');
-    }
-  }, [currentUser, location, navigate, authRoutes]);
+// Report pages
+import Budget from "@/pages/reports/Budget";
+import ProfitLoss from "@/pages/reports/ProfitLoss";
+import Revenue from "@/pages/reports/Revenue";
+import ExpensesReport from "@/pages/reports/Expenses";
 
-  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    if (!currentUser && !publicRoutes.includes(location.pathname)) {
-      return <Navigate to="/login" />;
-    }
-    return <>{children}</>;
-  };
+// Auth pages
+import Login from "@/pages/auth/Login";
+import Register from "@/pages/auth/Register";
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+// Error pages
+import NotFound from "@/pages/NotFound";
 
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/payment" element={<Payment />} />
-        
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/banking" element={<ProtectedRoute><Banking /></ProtectedRoute>} />
-        <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
-        <Route path="/estimates" element={<ProtectedRoute><Estimates /></ProtectedRoute>} />
-        <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
-        <Route path="/inventory/orders" element={<ProtectedRoute><Navigate to="/inventory?tab=orders" replace /></ProtectedRoute>} />
-        <Route path="/inventory/tracking" element={<ProtectedRoute><Navigate to="/inventory?tab=tracking" replace /></ProtectedRoute>} />
-        <Route path="/inventory/analytics" element={<ProtectedRoute><Navigate to="/inventory?tab=analytics" replace /></ProtectedRoute>} />
-        <Route path="/suppliers" element={<ProtectedRoute><Suppliers /></ProtectedRoute>} />
-        <Route path="/purchases" element={<ProtectedRoute><Purchases /></ProtectedRoute>} />
-        <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
-        <Route path="/reports/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
-        <Route path="/reports/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
-        <Route path="/reports/profit-loss" element={<ProtectedRoute><ProfitLoss /></ProtectedRoute>} />
-        <Route path="/reports/revenue" element={<ProtectedRoute><Revenue /></ProtectedRoute>} />
-        <Route path="/accountant" element={<ProtectedRoute><Accountant /></ProtectedRoute>} />
-        <Route path="/accountant/reports" element={<ProtectedRoute><AccountantReports /></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-        
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
-  );
-}
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider defaultTheme="light" storageKey="finance-theme-preference">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* Protected app routes */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/items" element={
+                <ProtectedRoute requiredRole={["inventory", "admin"]}>
+                  <Items />
+                </ProtectedRoute>
+              } />
+              <Route path="/banking" element={
+                <ProtectedRoute>
+                  <Banking />
+                </ProtectedRoute>
+              } />
+              <Route path="/sales" element={
+                <ProtectedRoute>
+                  <Sales />
+                </ProtectedRoute>
+              } />
+              <Route path="/sales/invoices" element={
+                <ProtectedRoute>
+                  <Invoices />
+                </ProtectedRoute>
+              } />
+              <Route path="/purchases" element={
+                <ProtectedRoute>
+                  <Purchases />
+                </ProtectedRoute>
+              } />
+              <Route path="/time-tracking" element={
+                <ProtectedRoute>
+                  <TimeTracking />
+                </ProtectedRoute>
+              } />
+              <Route path="/accountant" element={
+                <ProtectedRoute requiredRole={["accountant", "admin", "manager"]}>
+                  <Accountant />
+                </ProtectedRoute>
+              } />
+              <Route path="/accountant/reports" element={
+                <ProtectedRoute requiredRole={["accountant", "admin", "manager"]}>
+                  <AccountantReports />
+                </ProtectedRoute>
+              } />
+              <Route path="/reports" element={
+                <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                  <Reports />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin" element={
+                <ProtectedRoute requiredRole="admin">
+                  <Admin />
+                </ProtectedRoute>
+              } />
+              <Route path="/inventory" element={
+                <ProtectedRoute requiredRole={["inventory", "admin"]}>
+                  <Inventory />
+                </ProtectedRoute>
+              } />
+              <Route path="/suppliers" element={
+                <ProtectedRoute requiredRole={["inventory", "admin"]}>
+                  <Suppliers />
+                </ProtectedRoute>
+              } />
+              
+              {/* Redirect tracking to inventory section */}
+              <Route path="/tracking" element={<Navigate to="/inventory?tab=tracking" replace />} />
+              
+              {/* Redirect orders to inventory section */}
+              <Route path="/orders" element={<Navigate to="/inventory?tab=orders" replace />} />
+              
+              {/* Redirect analytics to inventory section */}
+              <Route path="/analytics" element={<Navigate to="/inventory?tab=analytics" replace />} />
+              
+              {/* Redirect expenses to purchases with expenses tab */}
+              <Route path="/expenses" element={<Navigate to="/purchases" replace />} />
+              
+              {/* Redirect documents to dashboard */}
+              <Route path="/documents" element={<Navigate to="/dashboard" replace />} />
+
+              {/* Redirect removed pages */}
+              <Route path="/estimates" element={<Navigate to="/sales" replace />} />
+              <Route path="/retainer-invoices" element={<Navigate to="/sales" replace />} />
+              <Route path="/sales-orders" element={<Navigate to="/sales" replace />} />
+              <Route path="/credit-notes" element={<Navigate to="/sales" replace />} />
+              <Route path="/invoices" element={<Navigate to="/sales/invoices" replace />} />
+              
+              {/* Redirect customers to sales with customers tab */}
+              <Route path="/customers" element={<Navigate to="/sales?tab=customers" replace />} />
+
+              {/* Report routes */}
+              <Route path="/reports/budget" element={
+                <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                  <Budget />
+                </ProtectedRoute>
+              } />
+              <Route path="/reports/profit-loss" element={
+                <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                  <ProfitLoss />
+                </ProtectedRoute>
+              } />
+              <Route path="/reports/revenue" element={
+                <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                  <Revenue />
+                </ProtectedRoute>
+              } />
+              <Route path="/reports/expenses" element={
+                <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
+                  <ExpensesReport />
+                </ProtectedRoute>
+              } />
+
+              {/* 404 route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
+);
 
 export default App;

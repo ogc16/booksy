@@ -13,13 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/components/theme/theme-provider";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { setTheme, theme } = useTheme();
-  const navigate = useNavigate();
-  const { logout } = useAuth();
 
   return (
     <SidebarProvider>
@@ -64,11 +60,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/settings")}>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
                   <DropdownMenuItem>Billing</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+                  <DropdownMenuItem>Log out</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
