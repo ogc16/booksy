@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from "./contexts/AuthContext";
@@ -29,6 +30,10 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  
+  // Define publicRoutes here so it's accessible in the component
+  const publicRoutes = ['/', '/login', '/register', '/pricing', '/payment'];
+  const authRoutes = ['/dashboard', '/banking', '/invoices', '/estimates', '/inventory', '/suppliers', '/purchases', '/reports', '/expenses', '/budget', '/profit-loss', '/revenue', '/accountant', '/admin', '/settings'];
 
   useEffect(() => {
     // Simulate loading
@@ -38,15 +43,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const publicRoutes = ['/', '/login', '/register', '/pricing', '/payment'];
-    const authRoutes = ['/dashboard', '/banking', '/invoices', '/estimates', '/inventory', '/suppliers', '/purchases', '/reports', '/expenses', '/budget', '/profit-loss', '/revenue', '/accountant', '/admin', '/settings'];
-
     if (!currentUser && authRoutes.some(route => location.pathname.startsWith(route))) {
       navigate('/login');
     } else if (currentUser && location.pathname === '/login') {
       navigate('/dashboard');
     }
-  }, [currentUser, location, navigate]);
+  }, [currentUser, location, navigate, authRoutes]);
 
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     if (!currentUser && !publicRoutes.includes(location.pathname)) {
@@ -68,27 +70,25 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/payment" element={<Payment />} />
         
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/banking" element={<Banking />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/estimates" element={<Estimates />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/inventory/orders" element={<Navigate to="/inventory?tab=orders" replace />} />
-          <Route path="/inventory/tracking" element={<Navigate to="/inventory?tab=tracking" replace />} />
-          <Route path="/inventory/analytics" element={<Navigate to="/inventory?tab=analytics" replace />} />
-          <Route path="/suppliers" element={<Suppliers />} />
-          <Route path="/purchases" element={<Purchases />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/reports/expenses" element={<Expenses />} />
-          <Route path="/reports/budget" element={<Budget />} />
-          <Route path="/reports/profit-loss" element={<ProfitLoss />} />
-          <Route path="/reports/revenue" element={<Revenue />} />
-          <Route path="/accountant" element={<Accountant />} />
-          <Route path="/accountant/reports" element={<AccountantReports />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/banking" element={<ProtectedRoute><Banking /></ProtectedRoute>} />
+        <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
+        <Route path="/estimates" element={<ProtectedRoute><Estimates /></ProtectedRoute>} />
+        <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
+        <Route path="/inventory/orders" element={<ProtectedRoute><Navigate to="/inventory?tab=orders" replace /></ProtectedRoute>} />
+        <Route path="/inventory/tracking" element={<ProtectedRoute><Navigate to="/inventory?tab=tracking" replace /></ProtectedRoute>} />
+        <Route path="/inventory/analytics" element={<ProtectedRoute><Navigate to="/inventory?tab=analytics" replace /></ProtectedRoute>} />
+        <Route path="/suppliers" element={<ProtectedRoute><Suppliers /></ProtectedRoute>} />
+        <Route path="/purchases" element={<ProtectedRoute><Purchases /></ProtectedRoute>} />
+        <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+        <Route path="/reports/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
+        <Route path="/reports/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
+        <Route path="/reports/profit-loss" element={<ProtectedRoute><ProfitLoss /></ProtectedRoute>} />
+        <Route path="/reports/revenue" element={<ProtectedRoute><Revenue /></ProtectedRoute>} />
+        <Route path="/accountant" element={<ProtectedRoute><Accountant /></ProtectedRoute>} />
+        <Route path="/accountant/reports" element={<ProtectedRoute><AccountantReports /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         
         <Route path="*" element={<NotFound />} />
       </Routes>

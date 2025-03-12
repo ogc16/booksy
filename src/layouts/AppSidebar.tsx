@@ -1,5 +1,4 @@
 
-import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { NavLinks } from "@/components/ui/nav-links";
+import { getNavLinks } from "@/components/ui/nav-links";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -33,6 +32,9 @@ export function AppSidebar() {
       .join('')
       .toUpperCase();
   };
+
+  // Get nav links using the getNavLinks function
+  const navLinks = getNavLinks(user?.role);
 
   return (
     <Sidebar collapsible="icon">
@@ -62,7 +64,29 @@ export function AppSidebar() {
             </div>
           </div>
         )}
-        <NavLinks />
+        <SidebarMenu>
+          {navLinks.map((link) => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarMenuButton
+                asChild
+                onClick={() => navigate(link.href)}
+              >
+                <Button variant="ghost" className="w-full justify-start">
+                  {link.icon === "LayoutDashboard" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "Building2" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "Receipt" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "ClipboardEdit" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "PackageCheck" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "Truck" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "ShoppingCart" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "BarChart2" && <div className="w-4 h-4 mr-2"></div>}
+                  {link.icon === "Settings" && <div className="w-4 h-4 mr-2"></div>}
+                  <span>{link.title}</span>
+                </Button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
       </SidebarContent>
       
       <SidebarFooter>

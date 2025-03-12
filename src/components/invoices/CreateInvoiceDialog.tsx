@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Invoice } from "@/types/invoice";
+import { Invoice, InvoiceItem } from "@/types/invoice";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,6 +14,12 @@ interface CreateInvoiceDialogProps {
   onCreateInvoice: (invoice: Invoice) => void;
 }
 
+interface InvoiceFormItem {
+  description: string;
+  quantity: number;
+  price: number;
+}
+
 const CreateInvoiceDialog = ({ 
   open, 
   onOpenChange,
@@ -22,7 +27,7 @@ const CreateInvoiceDialog = ({
 }: CreateInvoiceDialogProps) => {
   // Form state
   const [client, setClient] = useState("");
-  const [items, setItems] = useState([{ description: "", quantity: 1, price: 0 }]);
+  const [items, setItems] = useState<InvoiceFormItem[]>([{ description: "", quantity: 1, price: 0 }]);
   const [dueDate, setDueDate] = useState("");
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -78,7 +83,13 @@ const CreateInvoiceDialog = ({
   // Handle updating an item
   const handleItemChange = (index: number, field: "description" | "quantity" | "price", value: string | number) => {
     const updatedItems = [...items];
-    updatedItems[index][field] = value;
+    if (field === "description") {
+      updatedItems[index].description = value as string;
+    } else if (field === "quantity") {
+      updatedItems[index].quantity = Number(value);
+    } else if (field === "price") {
+      updatedItems[index].price = Number(value);
+    }
     setItems(updatedItems);
   };
 
