@@ -1,30 +1,13 @@
 
-import { useState } from "react";
-import { Plus, X } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from "@/components/ui/dialog";
+import React, { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Invoice } from "@/types/invoice";
 import { toast } from "sonner";
-import { Calendar } from "lucide-react";
-
-interface InvoiceItem {
-  description: string;
-  quantity: number;
-  price: number;
-}
-
-interface Invoice {
-  id: number;
-  number: string;
-  date: string;
-  amount: number;
-  status: string;
-  client: string;
-  items: InvoiceItem[];
-  attachments?: File[];
-}
+import { v4 as uuidv4 } from "uuid";
 
 interface CreateInvoiceDialogProps {
   open: boolean;
@@ -34,240 +17,261 @@ interface CreateInvoiceDialogProps {
 
 const CreateInvoiceDialog = ({ 
   open, 
-  onOpenChange, 
+  onOpenChange,
   onCreateInvoice 
 }: CreateInvoiceDialogProps) => {
-  const [newInvoice, setNewInvoice] = useState<Omit<Invoice, 'id'>>({
-    number: `INV-${String(Date.now()).slice(-4)}`,
-    date: new Date().toISOString().split('T')[0],
-    amount: 0,
-    status: 'Draft',
-    client: '',
-    items: [{ description: '', quantity: 1, price: 0 }]
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setNewInvoice({ ...newInvoice, [name]: value });
-  };
-
-  const handleItemChange = (index: number, field: 'description' | 'quantity' | 'price', value: string | number) => {
-    const newItems = [...newInvoice.items];
-    if (field === 'description') {
-      newItems[index] = { ...newItems[index], description: value as string };
-    } else {
-      newItems[index] = { ...newItems[index], [field]: Number(value) || 0 };
+  // Form state
+  const [client, setClient] = useState("");
+  const [items, setItems] = useState([{ description: "", quantity: 1, price: 0 }]);
+  const [dueDate, setDueDate] = useState("");
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [status, setStatus] = useState("Draft");
+  
+  // Get currency and VAT settings from localStorage
+  const [currency, setCurrency] = useState("$");
+  const [vatEnabled, setVatEnabled] = useState(false);
+  const [vatRate, setVatRate] = useState(0);
+  
+  useEffect(() => {
+    // Load currency and VAT settings from localStorage
+    try {
+      const storedCurrencySymbol = localStorage.getItem('app-currency-symbol');
+      if (storedCurrencySymbol) {
+        setCurrency(JSON.parse(storedCurrencySymbol));
+      }
+      
+      const storedVatEnabled = localStorage.getItem('app-vat-enabled');
+      if (storedVatEnabled) {
+        setVatEnabled(JSON.parse(storedVatEnabled));
+      }
+      
+      const storedVatRate = localStorage.getItem('app-vat-rate');
+      if (storedVatRate) {
+        setVatRate(Number(JSON.parse(storedVatRate)));
+      }
+    } catch (error) {
+      console.error("Error loading settings from localStorage:", error);
     }
-
-    // Calculate total amount
-    const totalAmount = newItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  }, []);
+  
+  // Calculate totals whenever items or VAT changes
+  useEffect(() => {
+    const calculatedSubtotal = items.reduce(
+      (sum, item) => sum + item.quantity * item.price, 
+      0
+    );
+    setSubtotal(calculatedSubtotal);
     
-    setNewInvoice({ 
-      ...newInvoice, 
-      items: newItems,
-      amount: totalAmount
-    });
-  };
-
-  const addItem = () => {
-    setNewInvoice({
-      ...newInvoice,
-      items: [...newInvoice.items, { description: '', quantity: 1, price: 0 }]
-    });
-  };
-
-  const removeItem = (index: number) => {
-    if (newInvoice.items.length === 1) {
-      return; // Keep at least one item
+    let calculatedTotal = calculatedSubtotal;
+    if (vatEnabled && vatRate > 0) {
+      calculatedTotal += calculatedSubtotal * (vatRate / 100);
     }
-    
-    const newItems = newInvoice.items.filter((_, i) => i !== index);
-    
-    // Recalculate total
-    const totalAmount = newItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
-    
-    setNewInvoice({
-      ...newInvoice,
-      items: newItems,
-      amount: totalAmount
-    });
+    setTotal(calculatedTotal);
+  }, [items, vatEnabled, vatRate]);
+
+  // Handle adding a new item
+  const handleAddItem = () => {
+    setItems([...items, { description: "", quantity: 1, price: 0 }]);
   };
 
-  const handleSubmit = () => {
-    if (!newInvoice.client) {
+  // Handle updating an item
+  const handleItemChange = (index: number, field: "description" | "quantity" | "price", value: string | number) => {
+    const updatedItems = [...items];
+    updatedItems[index][field] = value;
+    setItems(updatedItems);
+  };
+
+  // Handle removing an item
+  const handleRemoveItem = (index: number) => {
+    if (items.length > 1) {
+      setItems(items.filter((_, i) => i !== index));
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!client) {
       toast.error("Please enter a client name");
       return;
     }
-
-    if (!newInvoice.items.some(item => item.description && item.price > 0)) {
-      toast.error("Please add at least one item with description and price");
+    
+    if (!dueDate) {
+      toast.error("Please select a due date");
       return;
     }
-
-    // Generate a random ID (in a real app, this would come from the backend)
-    const invoiceWithId: Invoice = {
-      ...newInvoice,
-      id: Math.floor(Math.random() * 10000)
-    };
-
-    onCreateInvoice(invoiceWithId);
-    toast.success("Invoice created successfully");
-    onOpenChange(false);
-
-    // Reset form
-    setNewInvoice({
-      number: `INV-${String(Date.now()).slice(-4)}`,
+    
+    if (items.some(item => !item.description)) {
+      toast.error("All items must have a description");
+      return;
+    }
+    
+    // Create new invoice
+    const newInvoice: Invoice = {
+      id: uuidv4(),
+      number: `INV-${Math.floor(Math.random() * 10000)}`,
+      client,
       date: new Date().toISOString().split('T')[0],
-      amount: 0,
-      status: 'Draft',
-      client: '',
-      items: [{ description: '', quantity: 1, price: 0 }]
-    });
+      dueDate,
+      items,
+      subtotal,
+      vatRate: vatEnabled ? vatRate : 0,
+      total,
+      status,
+      paymentStatus: "Unpaid"
+    };
+    
+    onCreateInvoice(newInvoice);
+    toast.success("Invoice created successfully");
+    
+    // Reset form
+    setClient("");
+    setItems([{ description: "", quantity: 1, price: 0 }]);
+    setDueDate("");
+    setStatus("Draft");
+    
+    // Close dialog
+    onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Create New Invoice</DialogTitle>
           <DialogDescription>
-            Create a new invoice for your client
+            Create a new invoice for your client.
           </DialogDescription>
         </DialogHeader>
-
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="client">Client Name</Label>
-              <Input 
+              <Input
                 id="client"
-                name="client"
-                value={newInvoice.client}
-                onChange={handleInputChange}
-                placeholder="Enter client name"
+                value={client}
+                onChange={(e) => setClient(e.target.value)}
+                placeholder="Client or Company Name"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="number">Invoice Number</Label>
-              <Input 
-                id="number"
-                name="number"
-                value={newInvoice.number}
-                onChange={handleInputChange}
-                placeholder="INV-0001"
+              <Label htmlFor="dueDate">Due Date</Label>
+              <Input
+                id="dueDate"
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
               />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
-              <div className="relative">
-                <Input 
-                  id="date"
-                  type="date"
-                  name="date"
-                  value={newInvoice.date}
-                  onChange={handleInputChange}
-                />
-                <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-500" />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <select 
-                id="status"
-                name="status"
-                value={newInvoice.status}
-                onChange={handleInputChange}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-              >
-                <option value="Draft">Draft</option>
-                <option value="Pending">Pending</option>
-                <option value="Paid">Paid</option>
-              </select>
             </div>
           </div>
-
+          
           <div className="space-y-2">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <Label>Items</Label>
-              <Button type="button" variant="outline" size="sm" onClick={addItem}>
-                <Plus className="h-4 w-4 mr-1" /> Add Item
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                onClick={handleAddItem}
+              >
+                Add Item
               </Button>
             </div>
             
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50%]">Description</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {newInvoice.items.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Input
-                        value={item.description}
-                        onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                        placeholder="Item description"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="number"
-                        min="1"
-                        value={item.quantity}
-                        onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={item.price}
-                        onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell>${(item.quantity * item.price).toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Button 
-                        type="button" 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => removeItem(index)}
-                        disabled={newInvoice.items.length === 1}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-
-          <div className="flex justify-end">
-            <div className="bg-muted p-4 rounded-md">
-              <div className="text-sm">Total Amount</div>
-              <div className="text-xl font-bold">
-                ${newInvoice.amount.toFixed(2)}
-              </div>
+            <div className="space-y-2">
+              {items.map((item, index) => (
+                <div key={index} className="flex items-end gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor={`description-${index}`} className="sr-only">Description</Label>
+                    <Input
+                      id={`description-${index}`}
+                      value={item.description}
+                      onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                      placeholder="Description"
+                    />
+                  </div>
+                  
+                  <div className="w-20">
+                    <Label htmlFor={`quantity-${index}`} className="sr-only">Qty</Label>
+                    <Input
+                      id={`quantity-${index}`}
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value) || 1)}
+                      placeholder="Qty"
+                    />
+                  </div>
+                  
+                  <div className="w-24">
+                    <Label htmlFor={`price-${index}`} className="sr-only">Price</Label>
+                    <Input
+                      id={`price-${index}`}
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={item.price}
+                      onChange={(e) => handleItemChange(index, "price", parseFloat(e.target.value) || 0)}
+                      placeholder="Price"
+                    />
+                  </div>
+                  
+                  {items.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveItem(index)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button onClick={handleSubmit}>Create Invoice</Button>
-        </DialogFooter>
+          
+          <div className="border-t pt-4">
+            <div className="flex justify-between items-center">
+              <span>Subtotal:</span>
+              <span>{currency}{subtotal.toFixed(2)}</span>
+            </div>
+            
+            {vatEnabled && (
+              <div className="flex justify-between items-center">
+                <span>VAT ({vatRate}%):</span>
+                <span>{currency}{(subtotal * vatRate / 100).toFixed(2)}</span>
+              </div>
+            )}
+            
+            <div className="flex justify-between items-center font-bold text-lg">
+              <span>Total:</span>
+              <span>{currency}{total.toFixed(2)}</span>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="status">Invoice Status</Label>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Draft">Draft</SelectItem>
+                <SelectItem value="Pending">Pending</SelectItem>
+                <SelectItem value="Sent">Sent</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <DialogFooter>
+            <Button type="submit">Create Invoice</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

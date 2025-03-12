@@ -1,47 +1,95 @@
-
-import { 
-  BarChart, Calculator, Clock, CreditCard, 
-  Home, Package, ShieldCheck, ShoppingCart, 
-  Users, UserRound
+import {
+  BarChart2,
+  Building2,
+  ClipboardEdit,
+  LayoutDashboard,
+  PackageCheck,
+  Receipt,
+  Settings,
+  ShoppingCart,
+  Truck,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import { cn } from "@/lib/utils";
 
-const links = [
-  { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/banking", label: "Banking", icon: CreditCard },
-  { href: "/sales", label: "Sales", icon: ShoppingCart },
-  { href: "/purchases", label: "Purchases", icon: Package },
-  { href: "/inventory", label: "Inventory", icon: Package },
-  { href: "/time-tracking", label: "Time Tracking", icon: Clock },
-  { href: "/accountant", label: "Accountant", icon: Calculator },
-];
+export interface NavLink {
+  title: string;
+  href: string;
+  icon:
+    | "LayoutDashboard"
+    | "Building2"
+    | "Receipt"
+    | "ClipboardEdit"
+    | "PackageCheck"
+    | "Truck"
+    | "ShoppingCart"
+    | "BarChart2"
+    | "Settings";
+  roles: string[];
+}
 
-export function NavLinks() {
-  const location = useLocation();
+export function getNavLinks(role: string | null | undefined): NavLink[] {
+  const links: NavLink[] = [
+    {
+      title: "Dashboard",
+      href: "/dashboard",
+      icon: "LayoutDashboard",
+      roles: ["user", "admin", "accountant", "manager"],
+    },
+    {
+      title: "Banking",
+      href: "/banking",
+      icon: "Building2",
+      roles: ["user", "admin", "accountant", "manager"],
+    },
+    {
+      title: "Invoices",
+      href: "/invoices",
+      icon: "Receipt",
+      roles: ["user", "admin", "accountant", "manager"],
+    },
+    {
+      title: "Estimates",
+      href: "/estimates",
+      icon: "ClipboardEdit",
+      roles: ["user", "admin", "manager"],
+    },
+    {
+      title: "Inventory",
+      href: "/inventory",
+      icon: "PackageCheck",
+      roles: ["user", "admin", "manager"],
+    },
+    {
+      title: "Suppliers",
+      href: "/suppliers",
+      icon: "Truck",
+      roles: ["user", "admin", "manager"],
+    },
+    {
+      title: "Purchases",
+      href: "/purchases",
+      icon: "ShoppingCart",
+      roles: ["user", "admin", "manager"],
+    },
+    {
+      title: "Reports",
+      href: "/reports",
+      icon: "BarChart2",
+      roles: ["accountant", "admin", "manager"],
+    },
+    {
+      title: "Settings",
+      href: "/settings",
+      icon: "Settings",
+      roles: ["admin", "manager"],
+    }
+  ];
 
-  return (
-    <nav className="space-y-1 px-2">
-      {links.map((link) => {
-        const Icon = link.icon;
-        const isActive = location.pathname === link.href;
-
-        return (
-          <Link
-            key={link.href}
-            to={link.href}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-              isActive 
-                ? "bg-primary text-primary-foreground" 
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            <Icon className="h-4 w-4" />
-            {link.label}
-          </Link>
-        );
-      })}
-    </nav>
-  );
+  // Filter links based on user role
+  return links.filter((link) => {
+    // Show all links if no role is specified (or include role validation logic)
+    if (!role || link.roles.includes(role)) {
+      return true;
+    }
+    return false;
+  });
 }
