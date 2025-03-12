@@ -1,4 +1,3 @@
-
 import {
   BarChart2,
   Building2,
@@ -6,7 +5,6 @@ import {
   LayoutDashboard,
   PackageCheck,
   Receipt,
-  Settings,
   ShoppingCart,
   Truck,
 } from "lucide-react";
@@ -29,8 +27,7 @@ export interface NavLink {
     | "PackageCheck"
     | "Truck"
     | "ShoppingCart"
-    | "BarChart2"
-    | "Settings";
+    | "BarChart2";
   roles: string[];
 }
 
@@ -83,12 +80,6 @@ export function getNavLinks(role: string | null | undefined): NavLink[] {
       href: "/reports",
       icon: "BarChart2",
       roles: ["accountant", "admin", "manager"],
-    },
-    {
-      title: "Settings",
-      href: "/settings",
-      icon: "Settings",
-      roles: ["admin", "manager"],
     }
   ];
 
@@ -126,8 +117,6 @@ export function NavLinks() {
         return <ShoppingCart className="mr-2 h-4 w-4" />;
       case "BarChart2":
         return <BarChart2 className="mr-2 h-4 w-4" />;
-      case "Settings":
-        return <Settings className="mr-2 h-4 w-4" />;
       default:
         return null;
     }
