@@ -18,7 +18,8 @@ import {
   ArrowUpCircle,
   Download,
   CheckCircle,
-  XCircle
+  XCircle,
+  FileBarChart
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -95,6 +96,10 @@ const Accountant = () => {
     toast.success(`Downloading ${title}`);
   };
 
+  const handleViewReports = () => {
+    navigate("/accountant/reports");
+  };
+
   return (
     <AppLayout>
       <div className="space-y-6 p-4">
@@ -103,11 +108,17 @@ const Accountant = () => {
             <h1 className="text-3xl font-bold">Accounting Dashboard</h1>
             <p className="text-gray-600">Manage financial statements and accounting tasks</p>
           </div>
-          {hasPermission(["manager"]) && (
-            <Button onClick={() => navigate("/admin")}>
-              Admin Panel
+          <div className="flex gap-2">
+            {hasPermission(["manager"]) && (
+              <Button onClick={() => navigate("/admin")}>
+                Admin Panel
+              </Button>
+            )}
+            <Button onClick={handleViewReports} variant="outline">
+              <FileBarChart className="mr-2 h-4 w-4" />
+              View Reports
             </Button>
-          )}
+          </div>
         </div>
 
         {/* Dashboard Widgets */}

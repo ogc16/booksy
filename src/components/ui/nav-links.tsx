@@ -13,7 +13,6 @@ const links = [
   { href: "/sales", label: "Sales", icon: ShoppingCart },
   { href: "/purchases", label: "Purchases", icon: Package },
   { href: "/inventory", label: "Inventory", icon: Package },
-  { href: "/customers", label: "Customers", icon: UserRound },
   { href: "/time-tracking", label: "Time Tracking", icon: Clock },
   { href: "/accountant", label: "Accountant", icon: Calculator },
 ];

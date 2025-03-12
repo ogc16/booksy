@@ -26,6 +26,8 @@ import Reports from "@/pages/Reports";
 import Admin from "@/pages/Admin";
 import Inventory from "@/pages/Inventory";
 import LPO from "@/pages/LPO";
+import AccountantReports from "@/pages/accountant/Reports";
+import Suppliers from "@/pages/Suppliers";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";
@@ -99,6 +101,11 @@ const App = () => (
                   <Accountant />
                 </ProtectedRoute>
               } />
+              <Route path="/accountant/reports" element={
+                <ProtectedRoute requiredRole={["accountant", "admin", "manager"]}>
+                  <AccountantReports />
+                </ProtectedRoute>
+              } />
               <Route path="/reports" element={
                 <ProtectedRoute requiredRole={["accountant", "manager", "admin"]}>
                   <Reports />
@@ -112,6 +119,11 @@ const App = () => (
               <Route path="/inventory" element={
                 <ProtectedRoute requiredRole={["inventory", "admin"]}>
                   <Inventory />
+                </ProtectedRoute>
+              } />
+              <Route path="/suppliers" element={
+                <ProtectedRoute requiredRole={["inventory", "admin"]}>
+                  <Suppliers />
                 </ProtectedRoute>
               } />
               
