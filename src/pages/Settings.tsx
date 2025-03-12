@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,10 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { toast } from "sonner";
-import { CurrencyDollar, Receipt, Building, Settings as SettingsIcon } from "lucide-react";
+import { DollarSign, Receipt, Building, Settings as SettingsIcon, Wallet } from "lucide-react";
 
 const Settings = () => {
-  // Initialize with default values
   const [currency, setCurrency] = useLocalStorage("app-currency", "USD");
   const [currencySymbol, setCurrencySymbol] = useLocalStorage("app-currency-symbol", "$");
   const [vatRate, setVatRate] = useLocalStorage("app-vat-rate", "0");
@@ -21,7 +19,10 @@ const Settings = () => {
   const [companyAddress, setCompanyAddress] = useLocalStorage("app-company-address", "");
   const [companyPhone, setCompanyPhone] = useLocalStorage("app-company-phone", "");
   const [companyEmail, setCompanyEmail] = useLocalStorage("app-company-email", "");
-  
+  const [monthlyBudget, setMonthlyBudget] = useLocalStorage("app-monthly-budget", "0");
+  const [yearlyBudget, setYearlyBudget] = useLocalStorage("app-yearly-budget", "0");
+  const [budgetStartMonth, setBudgetStartMonth] = useLocalStorage("app-budget-start-month", "1");
+
   const currencies = [
     { code: "USD", symbol: "$", name: "US Dollar" },
     { code: "EUR", symbol: "€", name: "Euro" },
@@ -35,6 +36,21 @@ const Settings = () => {
     { code: "ZAR", symbol: "R", name: "South African Rand" },
   ];
 
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
+
   const handleCurrencyChange = (value: string) => {
     setCurrency(value);
     const selectedCurrency = currencies.find(c => c.code === value);
@@ -45,12 +61,15 @@ const Settings = () => {
   };
 
   const handleSaveTaxSettings = () => {
-    // In a real app, this would also update any server-side settings
     toast.success("Tax settings saved successfully");
   };
 
   const handleSaveCompanyInfo = () => {
     toast.success("Company information saved successfully");
+  };
+
+  const handleSaveBudgetSettings = () => {
+    toast.success("Budget settings saved successfully");
   };
 
   return (
@@ -66,12 +85,16 @@ const Settings = () => {
         <Tabs defaultValue="currency" className="space-y-4">
           <TabsList>
             <TabsTrigger value="currency">
-              <CurrencyDollar className="h-4 w-4 mr-2" />
+              <DollarSign className="h-4 w-4 mr-2" />
               Currency
             </TabsTrigger>
             <TabsTrigger value="taxes">
               <Receipt className="h-4 w-4 mr-2" />
               Taxes
+            </TabsTrigger>
+            <TabsTrigger value="budget">
+              <Wallet className="h-4 w-4 mr-2" />
+              Budget
             </TabsTrigger>
             <TabsTrigger value="company">
               <Building className="h-4 w-4 mr-2" />
@@ -152,6 +175,60 @@ const Settings = () => {
               </CardContent>
               <CardFooter>
                 <Button onClick={handleSaveTaxSettings}>Save Tax Settings</Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="budget">
+            <Card>
+              <CardHeader>
+                <CardTitle>Budget Settings</CardTitle>
+                <CardDescription>Configure your budget preferences</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-1">
+                  <Label htmlFor="monthlyBudget">Monthly Budget Target</Label>
+                  <Input
+                    id="monthlyBudget"
+                    type="number"
+                    min="0"
+                    value={monthlyBudget}
+                    onChange={(e) => setMonthlyBudget(e.target.value)}
+                  />
+                </div>
+                
+                <div className="space-y-1">
+                  <Label htmlFor="yearlyBudget">Yearly Budget Target</Label>
+                  <Input
+                    id="yearlyBudget"
+                    type="number"
+                    min="0"
+                    value={yearlyBudget}
+                    onChange={(e) => setYearlyBudget(e.target.value)}
+                  />
+                </div>
+                
+                <div className="space-y-1">
+                  <Label htmlFor="budgetStartMonth">Fiscal Year Start Month</Label>
+                  <Select
+                    value={budgetStartMonth}
+                    onValueChange={setBudgetStartMonth}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select month" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {months.map((month) => (
+                        <SelectItem key={month.value} value={month.value}>
+                          {month.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button onClick={handleSaveBudgetSettings}>Save Budget Settings</Button>
               </CardFooter>
             </Card>
           </TabsContent>
