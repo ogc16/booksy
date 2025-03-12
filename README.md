@@ -2,6 +2,10 @@
 ## Overview
 Booksy is a modern web application designed to enhance the book keeping. Built with a scalable and efficient tech stack, it offers a seamless and interactive interface.
 
+## Documentation
+See https://1drv.ms/f/c/F1ECEB033C56104B/AksQVjwD6-wggPESAQAAAAA?e=url971
+
+
 ## 🔧 Getting Started
 To set up Booksy locally, follow these steps:
 
