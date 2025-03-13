@@ -20,7 +20,7 @@ import Banking from "@/pages/banking/Banking";
 import Sales from "@/pages/sales/Sales";
 import Invoices from "@/pages/sales/Invoices";
 import Purchases from "@/pages/purchases/Purchases";
-import TimeTracking from "@/pages/TimeTracking";
+import TimeTracking from "@/pages/timetracking/TimeTracking";
 import Accountant from "@/pages/accountant/Accountant";
 import Reports from "@/pages/reports/Reports";
 import Admin from "@/pages/accountant/Admin";
