@@ -1,35 +1,12 @@
-
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
 import { FileText, ShoppingCart, Users } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import Invoices from "./Invoices";
-
-const SalesOrders = () => {
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Sales Orders</h2>
-      <p className="text-gray-600">Manage your sales orders and track fulfillment</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow">
-          <div className="flex flex-col items-center text-center gap-4">
-            <div className="bg-primary/10 p-4 rounded-full">
-              <ShoppingCart className="h-8 w-8 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-medium">Create New Sales Order</h3>
-              <p className="text-sm text-gray-500 mt-1">Generate a new sales order for your customers</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-};
+import SalesOrdersComponent from "./SalesOrders"; // Renamed to avoid confusion
 
 const CustomersSection = () => {
   return (
@@ -89,17 +66,19 @@ const Sales = () => {
                 </Card>
               </Link>
 
-              <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
-                <div className="flex flex-col items-center text-center gap-4">
-                  <div className="bg-primary/10 p-4 rounded-full">
-                    <ShoppingCart className="h-8 w-8 text-primary" />
+              
+                <Card onClick={() => setActiveTab("orders")} className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
+                  <div className="flex flex-col items-center text-center gap-4">
+                    <div className="bg-primary/10 p-4 rounded-full">
+                      <ShoppingCart className="h-8 w-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium">Sales Orders</h3>
+                      <p className="text-sm text-gray-500 mt-1">Manage your sales orders</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium">Sales Orders</h3>
-                    <p className="text-sm text-gray-500 mt-1">Manage your sales orders</p>
-                  </div>
-                </div>
-              </Card>
+                </Card>
+              
 
               <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
                 <div className="flex flex-col items-center text-center gap-4">
@@ -116,7 +95,7 @@ const Sales = () => {
           </TabsContent>
           
           <TabsContent value="orders" className="mt-6">
-            <SalesOrders />
+            <SalesOrdersComponent />
           </TabsContent>
 
           <TabsContent value="customers" className="mt-6">
