@@ -1,6 +1,6 @@
 import { AppLayout } from "@/layouts/AppLayout";
 import { Card } from "@/components/ui/card";
-import { FileText, ShoppingCart, Users } from "lucide-react";
+import { FileText, ShoppingCart, Users, Truck } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -88,6 +88,17 @@ const Sales = () => {
                   <div>
                     <h3 className="font-medium">Customers</h3>
                     <p className="text-sm text-gray-500 mt-1">Manage your customer relationships</p>
+                  </div>
+                </div>
+              </Card>
+               <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
+                <div className="flex flex-col items-center text-center gap-4">
+                  <div className="bg-primary/10 p-4 rounded-full">
+                    <Truck className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">Vendors</h3>
+                    <p className="text-sm text-gray-500 mt-1">Manage your vendors</p>
                   </div>
                 </div>
               </Card>
