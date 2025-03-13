@@ -14,18 +14,18 @@ import Pricing from "@/pages/Pricing";
 import Payment from "@/pages/Payment";
 
 // Dashboard and main app routes
-import Dashboard from "@/pages/Dashboard";
-import Items from "@/pages/Items";
+import Dashboard from "@/pages/dashboard/Dashboard";
+import Items from "@/pages/inventory/Items";
 import Banking from "@/pages/Banking";
 import Sales from "@/pages/sales/Sales";
 import Invoices from "@/pages/sales/Invoices";
 import Purchases from "@/pages/Purchases";
 import TimeTracking from "@/pages/TimeTracking";
-import Accountant from "@/pages/Accountant";
+import Accountant from "@/pages/accountant/Accountant";
 import Reports from "@/pages/Reports";
 import Admin from "@/pages/Admin";
-import Inventory from "@/pages/Inventory";
-import LPO from "@/pages/LPO";
+import Inventory from "@/pages/inventory/Inventory";
+import LPO from "@/pages/sales/LPO";
 import AccountantReports from "@/pages/accountant/Reports";
 import Suppliers from "@/pages/Suppliers";
 

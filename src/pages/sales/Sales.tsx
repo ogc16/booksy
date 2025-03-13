@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import Invoices from "./Invoices";
 import SalesOrdersComponent from "./SalesOrders"; // Renamed to avoid confusion
-import CreditNotes from "../CreditNotes";
-import CustomersSection from "../Customers";
+import CreditNotes from "./CreditNotes";
+import CustomersSection from "./Customers";
 
 const Sales = () => {
   const [activeTab, setActiveTab] = useState("overview");
