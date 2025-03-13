@@ -1,4 +1,3 @@
-
 import { AppLayout } from "@/layouts/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,7 +10,8 @@ import PurchaseOrdersTab from "@/components/purchases/PurchaseOrdersTab";
 import BillsTab from "@/components/purchases/BillsTab";
 import ReceivedItemsTab from "@/components/purchases/ReceivedItemsTab";
 import ExpensesTab from "@/components/purchases/ExpensesTab";
-import VendorsTab from "@/components/purchases/VendorsTab";
+
+// import SuppliersTab from "@/components/purchases/SuppliersTab";
 
 const Purchases = () => {
   const [activeTab, setActiveTab] = useState("orders");
@@ -19,14 +19,14 @@ const Purchases = () => {
   const [purchaseOrders, setPurchaseOrders] = useState([
     { 
       id: "PO-001", 
-      vendor: "Office Supplies Inc.", 
+      supplier: "Office Supplies Inc.", 
       date: "2023-10-15", 
       total: 1250.00, 
       status: "Received",
       bills: [
         {
           id: "BILL-001",
-          vendor: "Office Supplies Inc.",
+          supplier: "Office Supplies Inc.",
           date: "2024-03-15",
           dueDate: "2024-04-15",
           amount: 1250.00,
@@ -34,10 +34,10 @@ const Purchases = () => {
         }
       ]
     },
-    { id: "PO-002", vendor: "Tech Equipment Ltd.", date: "2023-10-18", total: 3450.75, status: "Pending" },
-    { id: "PO-003", vendor: "Furniture Warehouse", date: "2023-10-20", total: 5200.00, status: "Ordered" },
-    { id: "PO-004", vendor: "Office Depot", date: "2023-10-22", total: 890.50, status: "Pending" },
-    { id: "PO-005", vendor: "IT Solutions", date: "2023-10-25", total: 1750.25, status: "Ordered" },
+    { id: "PO-002", supplier: "Tech Equipment Ltd.", date: "2023-10-18", total: 3450.75, status: "Pending" },
+    { id: "PO-003", supplier: "Furniture Warehouse", date: "2023-10-20", total: 5200.00, status: "Ordered" },
+    { id: "PO-004", supplier: "Office Depot", date: "2023-10-22", total: 890.50, status: "Pending" },
+    { id: "PO-005", supplier: "IT Solutions", date: "2023-10-25", total: 1750.25, status: "Ordered" },
   ]);
 
   const [receivedItems, setReceivedItems] = useState([
@@ -102,7 +102,7 @@ const Purchases = () => {
             <TabsTrigger value="bills">Bills</TabsTrigger>
             <TabsTrigger value="items">Received Items</TabsTrigger>
             <TabsTrigger value="expenses">Expenses</TabsTrigger>
-            <TabsTrigger value="vendors">Vendors</TabsTrigger>
+            <TabsTrigger value="suppliers">Suppliers</TabsTrigger>
           </TabsList>
           
           <PurchaseSearch activeTab={activeTab} />
@@ -123,8 +123,8 @@ const Purchases = () => {
             <ExpensesTab expenses={expenses} />
           </TabsContent>
           
-          <TabsContent value="vendors">
-            <VendorsTab />
+          <TabsContent value="suppliers">
+           {/*<SuppliersTab />*/}
           </TabsContent>
         </Tabs>
       </div>

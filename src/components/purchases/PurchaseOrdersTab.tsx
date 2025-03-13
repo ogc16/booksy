@@ -1,11 +1,10 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface PurchaseOrder {
   id: string;
-  vendor: string;
+  supplier: string;
   date: string;
   total: number;
   status: string;
@@ -30,7 +29,7 @@ const PurchaseOrdersTab = ({ purchaseOrders, getStatusStyle }: PurchaseOrdersTab
             <thead className="text-xs uppercase bg-gray-50 dark:bg-gray-800">
               <tr>
                 <th scope="col" className="px-6 py-3">PO #</th>
-                <th scope="col" className="px-6 py-3">Vendor</th>
+                <th scope="col" className="px-6 py-3">Supplier</th>
                 <th scope="col" className="px-6 py-3">Date</th>
                 <th scope="col" className="px-6 py-3">Total</th>
                 <th scope="col" className="px-6 py-3">Status</th>
@@ -41,7 +40,7 @@ const PurchaseOrdersTab = ({ purchaseOrders, getStatusStyle }: PurchaseOrdersTab
               {purchaseOrders.map((order) => (
                 <tr key={order.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 font-medium">{order.id}</td>
-                  <td className="px-6 py-4">{order.vendor}</td>
+                  <td className="px-6 py-4">{order.supplier}</td>
                   <td className="px-6 py-4">{order.date}</td>
                   <td className="px-6 py-4">${order.total.toFixed(2)}</td>
                   <td className="px-6 py-4">
