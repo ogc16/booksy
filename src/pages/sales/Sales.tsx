@@ -7,30 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import Invoices from "./Invoices";
 import SalesOrdersComponent from "./SalesOrders"; // Renamed to avoid confusion
-import CreditNotes from "./CreditNotes";
-
-const CustomersSection = () => {
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Customers</h2>
-      <p className="text-gray-600">Manage your customer relationships</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow">
-          <div className="flex flex-col items-center text-center gap-4">
-            <div className="bg-primary/10 p-4 rounded-full">
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-medium">Add New Customer</h3>
-              <p className="text-sm text-gray-500 mt-1">Create a new customer profile</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-};
+import CreditNotes from "../CreditNotes";
+import CustomersSection from "../Customers";
 
 const Sales = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -49,7 +27,6 @@ const Sales = () => {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="invoices">Invoices</TabsTrigger>
             <TabsTrigger value="orders">Sales Orders</TabsTrigger>
-            <TabsTrigger value="creditnotes">Credit Notes</TabsTrigger>
             <TabsTrigger value="customers">Customers</TabsTrigger>
           </TabsList>
           
@@ -83,8 +60,10 @@ const Sales = () => {
                 </Card>
               
 
+                <Link to="/sales/creditnotes">
               <Card onClick={() => setActiveTab("creditnotes")} className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
                 <div className="flex flex-col items-center text-center gap-4">
+
                   <div className="bg-primary/10 p-4 rounded-full">
                     <Receipt className="h-8 w-8 text-primary" />
                   </div>
@@ -94,8 +73,11 @@ const Sales = () => {
                   </div>
                 </div>
               </Card>
+              </Link>
 
-              <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
+              <Link to="/sales/customers">
+              <Card onClick={() => setActiveTab("customers")} className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
+              
                 <div className="flex flex-col items-center text-center gap-4">
                   <div className="bg-primary/10 p-4 rounded-full">
                     <Users className="h-8 w-8 text-primary" />
@@ -106,6 +88,9 @@ const Sales = () => {
                   </div>
                 </div>
               </Card>
+              </Link>
+
+              <Link to ="/sales/vendors">
                <Card className="p-6 cursor-pointer hover:shadow-md transition-shadow h-full">
                 <div className="flex flex-col items-center text-center gap-4">
                   <div className="bg-primary/10 p-4 rounded-full">
@@ -117,6 +102,8 @@ const Sales = () => {
                   </div>
                 </div>
               </Card>
+              </Link>
+              
             </div>
           </TabsContent>
 
