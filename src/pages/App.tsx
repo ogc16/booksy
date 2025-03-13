@@ -10,24 +10,24 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Landing pages
 import Index from "@/pages/Index";
-import Pricing from "@/pages/Pricing";
-import Payment from "@/pages/Payment";
+import Pricing from "@/pages/landing/Pricing";
+import Payment from "@/pages/landing/Payment";
 
 // Dashboard and main app routes
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Items from "@/pages/inventory/Items";
-import Banking from "@/pages/Banking";
+import Banking from "@/pages/banking/Banking";
 import Sales from "@/pages/sales/Sales";
 import Invoices from "@/pages/sales/Invoices";
-import Purchases from "@/pages/Purchases";
+import Purchases from "@/pages/purchases/Purchases";
 import TimeTracking from "@/pages/TimeTracking";
 import Accountant from "@/pages/accountant/Accountant";
-import Reports from "@/pages/Reports";
-import Admin from "@/pages/Admin";
+import Reports from "@/pages/reports/Reports";
+import Admin from "@/pages/accountant/Admin";
 import Inventory from "@/pages/inventory/Inventory";
 import LPO from "@/pages/sales/LPO";
 import AccountantReports from "@/pages/accountant/Reports";
-import Suppliers from "@/pages/Suppliers";
+import Suppliers from "@/pages/purchases/Suppliers";
 
 // Report pages
 import Budget from "@/pages/reports/Budget";
