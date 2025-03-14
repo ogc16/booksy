@@ -1,3 +1,4 @@
+// Code to display the Purchase Orders page- incoming orders, and the status of each order.
 import { AppLayout } from "@/layouts/AppLayout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -11,14 +12,14 @@ const PurchaseOrder = () => {
   const [purchaseOrders, setPurchaseOrders] = useState([
     { 
       id: "PO-001", 
-      vendor: "Office Supplies Inc.", 
+      supplier: "Office Supplies Inc.", 
       date: "2023-10-15", 
       total: 1250.00, 
       status: "Received",
       bills: [
         {
           id: "BILL-001",
-          vendor: "Office Supplies Inc.",
+          supplier: "Office Supplies Inc.",
           date: "2024-03-15",
           dueDate: "2024-04-15",
           amount: 1250.00,
@@ -26,10 +27,10 @@ const PurchaseOrder = () => {
         }
       ]
     },
-    { id: "PO-002", vendor: "Tech Equipment Ltd.", date: "2023-10-18", total: 3450.75, status: "Pending" },
-    { id: "PO-003", vendor: "Furniture Warehouse", date: "2023-10-20", total: 5200.00, status: "Ordered" },
-    { id: "PO-004", vendor: "Office Depot", date: "2023-10-22", total: 890.50, status: "Pending" },
-    { id: "PO-005", vendor: "IT Solutions", date: "2023-10-25", total: 1750.25, status: "Ordered" },
+    { id: "PO-002", supplier: "Tech Equipment Ltd.", date: "2023-10-18", total: 3450.75, status: "Pending" },
+    { id: "PO-003", supplier: "Furniture Warehouse", date: "2023-10-20", total: 5200.00, status: "Ordered" },
+    { id: "PO-004", supplier: "Office Depot", date: "2023-10-22", total: 890.50, status: "Pending" },
+    { id: "PO-005", supplier: "IT Solutions", date: "2023-10-25", total: 1750.25, status: "Ordered" },
   ]);
 
   const getStatusStyle = (status: string) => {
@@ -54,18 +55,18 @@ const PurchaseOrder = () => {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
+        {/*<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">*/}
+        <div>
             <h1 className="text-3xl font-bold">Purchase Orders</h1>
             <p className="text-gray-600 mt-2">Manage your purchase orders</p>
           </div>
           <div className="flex gap-2">
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
-              New Purchase Order
+              New Purchase
             </Button>
-          </div>
-        </div>
+         </div>
+       {/*</div>*/}
 
         <PurchaseMetricsCards />
 

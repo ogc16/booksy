@@ -43,7 +43,7 @@ const Analytics = () => {
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <span className="text-2xl font-bold mr-2">KES 18,060.00</span>
+              <span className="text-2xl font-bold mr-2">$ 18,060.00</span>
               <span className="text-green-500 flex items-center text-sm">
                 <TrendingUp className="h-4 w-4 mr-1" />
                 +12.5%
@@ -59,7 +59,7 @@ const Analytics = () => {
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <span className="text-2xl font-bold mr-2">KES 37,200.00</span>
+              <span className="text-2xl font-bold mr-2">$ 37,200.00</span>
               <span className="text-red-500 flex items-center text-sm">
                 <ArrowDown className="h-4 w-4 mr-1" />
                 -3.2%
@@ -110,7 +110,7 @@ const Analytics = () => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="sales" stroke="#8884d8" name="Sales (KES)" />
+                    <Line type="monotone" dataKey="sales" stroke="#8884d8" name="Sales ($)" />
                     <Line type="monotone" dataKey="orders" stroke="#82ca9d" name="Orders" />
                   </LineChart>
                 </ResponsiveContainer>

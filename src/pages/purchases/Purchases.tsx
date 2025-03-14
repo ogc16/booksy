@@ -89,23 +89,26 @@ const Purchases = () => {
           <div className="flex gap-2">
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
-              New Purchase Order
+              Add Purchase
             </Button>
           </div>
         </div>
 
         <PurchaseMetricsCards />
 
-        <Tabs defaultValue="orders" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
+        <Tabs defaultValue="expenses" className="space-y-4" onValueChange={(value) => setActiveTab(value)}>
           <TabsList className="grid grid-cols-1 md:grid-cols-5 lg:w-[650px]">
-            <TabsTrigger value="orders">Purchase Orders</TabsTrigger>
+           {/* <TabsTrigger value="orders">Purchase Orders</TabsTrigger>*/}
+           <TabsTrigger value="expenses">Expenses</TabsTrigger>
             <TabsTrigger value="bills">Bills</TabsTrigger>
             <TabsTrigger value="items">Received Items</TabsTrigger>
-            <TabsTrigger value="expenses">Expenses</TabsTrigger>
             <TabsTrigger value="suppliers">Suppliers</TabsTrigger>
           </TabsList>
           
           <PurchaseSearch activeTab={activeTab} />
+          <TabsContent value="expenses">
+            <ExpensesTab expenses={expenses}  />
+          </TabsContent>
 
           <TabsContent value="orders">
             <PurchaseOrdersTab purchaseOrders={purchaseOrders} getStatusStyle={getStatusStyle} />
@@ -119,9 +122,6 @@ const Purchases = () => {
             <ReceivedItemsTab receivedItems={receivedItems} />
           </TabsContent>
           
-          <TabsContent value="expenses">
-            <ExpensesTab expenses={expenses} />
-          </TabsContent>
           
           <TabsContent value="suppliers">
            {/*<SuppliersTab />*/}
