@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
@@ -75,11 +74,11 @@ const Pricing = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="flex overflow-x-auto space-x-8 max-w-full px-4">
           {plans.map((plan) => (
             <Card 
               key={plan.name} 
-              className={`flex flex-col ${plan.recommended ? "border-primary shadow-lg" : ""}`}
+              className={`flex flex-col min-w-[300px] ${plan.recommended ? "border-primary shadow-lg" : ""}`}
             >
               {plan.recommended && (
                 <div className="bg-primary text-primary-foreground text-center py-1 text-sm font-medium">
