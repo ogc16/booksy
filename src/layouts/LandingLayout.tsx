@@ -8,12 +8,12 @@ export function LandingLayout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       
-      <footer className="border-t bg-white">
+      <footer className="border-t bg-cyan-600 text-white">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">About Us</h3>
-              <p className="text-sm text-muted-foreground">
+              <p>
                 Simplify your business finances with our comprehensive financial management platform.
               </p>
             </div>
@@ -21,24 +21,24 @@ export function LandingLayout({ children }: { children: React.ReactNode }) {
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">Quick Links</h3>
               <ul className="space-y-2">
-                <li><a href="/pricing" className="text-sm text-muted-foreground hover:text-primary">Pricing</a></li>
-                <li><a href="/login" className="text-sm text-muted-foreground hover:text-primary">Login</a></li>
-                <li><a href="/register" className="text-sm text-muted-foreground hover:text-primary">Register</a></li>
+                <li><a href="/pricing"className=" hover:text-primary">Pricing</a></li>
+                <li><a href="/login" className=" hover:text-primary">Login</a></li>
+                <li><a href="/register" className=" hover:text-primary">Register</a></li>
               </ul>
             </div>
             
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">Contact</h3>
               <ul className="space-y-2">
-                <li className="text-sm text-muted-foreground">Email: contact@example.com</li>
-                <li className="text-sm text-muted-foreground">Phone: (555) 123-4567</li>
-                <li className="text-sm text-muted-foreground">Address: 123 Business St.</li>
+                <li className="">Email: contact@example.com</li>
+                <li className="">Phone: (555) 123-4567</li>
+                <li className="">Address: 123 Business St.</li>
               </ul>
             </div>
             
-            <div className="space-y-3">
+            <div className="space-y-3 ">
               <h3 className="text-lg font-semibold">Follow Us</h3>
-              <div className="flex space-x-4">
+             {/* <div className="flex space-x-4"> */}
                 <Button variant="ghost" size="icon" className="hover:text-primary">
                   <Twitter className="h-5 w-5" />
                 </Button>
@@ -48,12 +48,18 @@ export function LandingLayout({ children }: { children: React.ReactNode }) {
                 <Button variant="ghost" size="icon" className="hover:text-primary">
                   <Mail className="h-5 w-5" />
                 </Button>
-              </div>
+              {/* </div> */}
+              <div>
+             <a href="https://" >Privacy Policy</a>
+            <p>Terms of Service</p>
+            <p>Cookie Policy</p>
+            <p>Security</p>
+            </div>
             </div>
           </div>
           
-          <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Your Company Name. All rights reserved.</p>
+          <div className="mt-7 text-center text-sm-opacity">
+                        <p>&copy; {new Date().getFullYear()} Booksy. All rights reserved.</p>
           </div>
         </div>
       </footer>
