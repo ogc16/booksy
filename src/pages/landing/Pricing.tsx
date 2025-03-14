@@ -9,6 +9,18 @@ const Pricing = () => {
 
   const plans = [
     {
+      name: "Free",
+      price: "0",
+      description: "Perfect for trying out our features",
+      features: [
+        "Up to 5 vendors",
+        "Basic expense tracking",
+        "Single bank account",
+        "Monthly reports",
+        "Email support"
+      ]
+    },
+    {
       name: "Starter",
       price: "$9",
       description: "Perfect for freelancers and small businesses just getting started",
