@@ -18,7 +18,7 @@ const sampleOrders = [
     status: "pending",
     total: 15000.00,
     items: [
-      { id: "ITEM-001", name: "biw biw Headband", quantity: 5, price: 2000.00 },
+      { id: "ITEM-001", name: "  Headband", quantity: 5, price: 2000.00 },
       { id: "ITEM-002", name: "Enhance Blush Highlighter", quantity: 2, price: 2500.00 }
     ]
   },
@@ -40,7 +40,7 @@ const sampleOrders = [
     status: "ready_for_pickup",
     total: 12000.00,
     items: [
-      { id: "ITEM-001", name: "biw biw Headband", quantity: 2, price: 2000.00 },
+      { id: "ITEM-001", name: "  Headband", quantity: 2, price: 2000.00 },
       { id: "ITEM-005", name: "Premium Makeup Kit", quantity: 1, price: 8000.00 }
     ]
   },
@@ -167,7 +167,7 @@ const Orders = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              KES {orders.reduce((total, order) => total + order.total, 0).toFixed(2)}
+              $ {orders.reduce((total, order) => total + order.total, 0).toFixed(2)}
             </div>
           </CardContent>
         </Card>
@@ -208,7 +208,7 @@ const Orders = () => {
                     <TableCell>{order.customer}</TableCell>
                     <TableCell>{order.date}</TableCell>
                     <TableCell>{getStatusBadge(order.status)}</TableCell>
-                    <TableCell className="text-right">KES {order.total.toFixed(2)}</TableCell>
+                    <TableCell className="text-right">$ {order.total.toFixed(2)}</TableCell>
                     <TableCell>
                       <Button 
                         size="sm" 
@@ -255,15 +255,15 @@ const Orders = () => {
                       <TableRow key={item.id}>
                         <TableCell>{item.name}</TableCell>
                         <TableCell className="text-right">{item.quantity}</TableCell>
-                        <TableCell className="text-right">KES {item.price.toFixed(2)}</TableCell>
-                        <TableCell className="text-right">KES {(item.quantity * item.price).toFixed(2)}</TableCell>
+                        <TableCell className="text-right">$ {item.price.toFixed(2)}</TableCell>
+                        <TableCell className="text-right">$ {(item.quantity * item.price).toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
 
                 <div className="text-right font-bold">
-                  Total: KES {selectedOrder?.total.toFixed(2)}
+                  Total: $ {selectedOrder?.total.toFixed(2)}
                 </div>
               </div>
 

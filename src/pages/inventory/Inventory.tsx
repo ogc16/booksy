@@ -19,9 +19,9 @@ import Analytics from "@/pages/inventory/Analytics";
 const sampleInventoryItems: InventoryItem[] = [
   {
     id: "1",
-    name: "biw biw Headband",
+    name: "Headband",
     sku: "HB_BLUE",
-    description: "biw-tiful blue",
+    description: "blue",
     price: 400.00,
     quantity: 15,
     imageUrl: "/placeholder.svg",
@@ -33,8 +33,8 @@ const sampleInventoryItems: InventoryItem[] = [
   },
   {
     id: "2",
-    name: "blush PRO brush",
-    sku: "BLUSH_BRUSH",
+    name: "PRO brush",
+    sku: "BL-BRUSH",
     description: "Professional makeup brush",
     price: 700.00,
     quantity: 8,
@@ -77,7 +77,7 @@ const samplePurchaseOrders: PurchaseOrder[] = [
     items: [
       {
         itemId: "1",
-        name: "biw biw Headband",
+        name: "Headband",
         sku: "HB_BLUE",
         quantity: 10,
         unitPrice: 300.00,
@@ -110,7 +110,7 @@ const samplePurchaseOrders: PurchaseOrder[] = [
 const sampleStockLevels: StockLevel[] = [
   {
     itemId: "1",
-    name: "biw biw Headband",
+    name: "Headband",
     sku: "HB_BLUE",
     currentStock: 15,
     reorderPoint: 5,
@@ -137,8 +137,8 @@ const sampleStockLevels: StockLevel[] = [
   },
   {
     itemId: "4",
-    name: "Allure Eyeshadow Palette",
-    sku: "ALL_EYE_PAL",
+    name: "Eyeshadow Palette",
+    sku: "EYE_PAL",
     currentStock: 10,
     reorderPoint: 5,
     reorderQuantity: 10,
@@ -191,7 +191,7 @@ const Inventory = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                KES {inventoryItems.reduce((total, item) => {
+                $ {inventoryItems.reduce((total, item) => {
                   return total + (item.price * item.quantity);
                 }, 0).toFixed(2)}
               </div>
