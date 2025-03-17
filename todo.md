@@ -8,4 +8,6 @@ TODO:
 7. Implement data backup and restore functionality
 8. In settings on the profile menu, we should configure currency and taxes like applied VAT,budget
 9. customers page should be able to be opened in the sales page as a navlink Customers
+10. banking to tyransactions
+11. add notifications to navigation header
 
